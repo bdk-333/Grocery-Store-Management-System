@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block nav %}
+<a class="nav-link" href="/">Home</a>
+<a class="nav-link active" aria-current="page" href="/products">Products</a>
+<a class="nav-link" href="/orders">Orders</a>
+{% endblock %} {% block body %}
+
+<div class="main-container">
+  <div class="container">
+    <h2 style="text-align: center">MANAGE PRODUCTS</h2>
+  </div>
+  <hr>
+  <div class="curr-products">
+    <div class="btns">
+      <button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" data-target="#productModal">Add New Product</button>
+    </div>
+
+    <table class="table product-table table-bordered">
+      <thead class="table-secondary">
+          <th scope="col">Name</th>
+          <th scope="col">Unit</th>
+          <th scope="col">Price per Unit</th>
+          <th scope="col">Action</th>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js_script %}
+<script src="{{ url_for('static', filename='/js/manage_products.js') }}"></script>
+{% endblock %}
