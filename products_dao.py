@@ -23,7 +23,6 @@ def get_all_products(cnx):
             }
         )
 
-    cnx.close()
     return response
 
 
@@ -58,4 +57,4 @@ if __name__ == "__main__":
     # delete_product(connection, 6)
     # print(last_row_id)
 
-    # print(get_all_products(connection))
+    print(get_all_products(connection))

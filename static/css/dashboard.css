@@ -1,0 +1,12 @@
+.card {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+}
+
+.card-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
