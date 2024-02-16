@@ -31,7 +31,7 @@ def insert_new_product(cnx, product):
     query = "insert into products " \
             "(name, uom_id, price_per_unit) " \
             "values " \
-            "(%s, %s, %s)"
+            "(%s, %s, %s);"
 
     data = (product["product_name"], product["uom_id"], product["price_per_unit"])
     cursor.execute(query, data)

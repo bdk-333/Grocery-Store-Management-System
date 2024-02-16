@@ -1,0 +1,111 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  header {
+    background-color: #f5f5f5;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  section {
+    padding: 50px 0;
+  }
+  
+  .fa-3x {
+    margin-bottom: 20px;
+  }
+  
+  footer {
+    background-color: #f5f5f5;
+  }
+
+  
+  /* new css */
+
+  body {
+    font-family: sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  .card {
+    border-radius: 10px;
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  h2 {
+    font-weight: bold;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    border-radius: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  a {
+    color: #28a745;
+  }
+  
+  .form-check-input {
+    accent-color: #28a745;
+  }
+
+/* Option 2: Gradient background */
+body {
+  background-image: linear-gradient(to bottom, #f5f5f5 0%, #e0e0e0 100%);
+}
+
+/* Example color palette */
+body {
+  background-color: #f5f5f5;
+}
+
+.card {
+  background-color: #ffffff;
+  border-color: #e0e0e0;
+}
+
+
+input[type="text"],
+input[type="password"] {
+  border-color: #ccc;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+a {
+  color: #3498db;
+}
+
+.form-check-input {
+  accent-color: #3498db;
+}
+
+/* Replace "Open Sans" with your preferred font */
+body, h2 {
+  font-family: "Open Sans", sans-serif;
+}
+
+input[type="email"],
+input[type="password"] {
+  font-family: "Roboto", sans-serif;
+}
+
+.card {
+  border-radius: 15px; /* Adjust radius for softer/sharper look */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}

@@ -5,27 +5,67 @@
 />
 <link
   rel="stylesheet"
+  href="{{ url_for('static', filename='/css/style.css') }}"
+/>
+<link
+  rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 {% endblock %} {% block nav %}
-<li class="nav-item">
-  <a class="nav-link" href="/">Dashboard</a>
+<li class="nav-item list-group-item">
+  <a class="nav-link active" aria-current="page" href="/home">
+    <img
+      src="{{url_for('static', filename='/images/dashboard.png')}}"
+      alt="dashboard"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Dashboard</p>
+  </a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="/getProducts">Products</a>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getProducts">
+    <img
+      src="{{url_for('static', filename='/images/products.png')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Products</p>
+  </a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="/orders">Orders</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="/login">Login</a>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/orders">
+    <img
+      src="{{url_for('static', filename='/images/orders.png')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Orders</p>
+  </a>
 </li>
 {% endblock %} {% block body %}
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-6">
-      <div class="card">
+      <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
           <p class="card-text">#</p>
@@ -33,14 +73,14 @@
         <div class="show-products" style="margin: 10px">
           <a href="/getProducts">
             <button type="button" class="btn btn-outline-secondary add-btn">
-              <span style="font-weight: bold;">Show Products</span>
+              <span style="font-weight: bold">Show Products</span>
             </button>
           </a>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card">
+      <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Orders</h5>
           <p class="card-text">#</p>
@@ -50,7 +90,7 @@
   </div>
   <div class="row mt-4">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card" style="box-shadow: 0px 0px 2px black">
         <div class="card-body">
           <h5 class="card-title">Financial Overview</h5>
           <canvas id="financialChart" width="400" height="200"></canvas>
@@ -60,7 +100,7 @@
   </div>
   <div class="row mt-4">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Employee Data</h5>
           <table class="table">

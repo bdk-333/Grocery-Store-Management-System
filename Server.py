@@ -1,6 +1,7 @@
 import json
 import products_dao
 import uom_dao
+import users_dao
 from flask import Flask, render_template, request, jsonify
 from sql_connection import connect_to_sql
 
@@ -65,9 +66,9 @@ def delete_product():
 
 
 @app.route("/")
-def index():
+def login():
     current_route = request.path
-    return render_template('index.html', current_route=current_route)
+    return render_template('login.html', current_route=current_route)
 
 
 # @app.route("/products")
@@ -82,9 +83,20 @@ def show_orders_page():
     return render_template('orders.html', current_route=current_route)
 
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
+@app.route('/login', methods=["GET", "POST"])
+def landing_page():
+    user = request.form.get("username")
+    user_exists = users_dao.verify_user(__connection, user)
+
+    if user_exists:
+        return render_template('index.html')
+    else:
+        return render_template("register.html")
+
+
+@app.route("/home")
+def index():
+    return render_template("index.html")
 
 
 @app.route('/register')

@@ -1,11 +1,10 @@
-
 /* Body styles */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f8f9fa;
 }
 
-.main-container{
+.main-container {
   width: 90%;
   margin: auto;
 }
@@ -29,33 +28,31 @@ h2 {
   }
 }
 
-
-.curr-products{
+.curr-products {
   width: 80%;
   margin: auto;
 
-  .btns{
+  .btns {
     padding: 15px;
-    width:100%;
+    width: 100%;
 
-    .add-btn{
+    .add-btn {
       float: right;
     }
 
-    .add-btn:active{
+    .add-btn:active {
       color: tan;
     }
 
-    .del-btn:active{
+    .del-btn:active {
       color: orange;
     }
   }
 
-  .product-table{
+  .product-table {
     margin-top: 50px;
   }
 }
-
 
 /* Button used to open the popup form */
 .open-button {
@@ -89,7 +86,8 @@ h2 {
 }
 
 /* Full-width input fields */
-.form-container input[type=text], .form-container input[type=password] {
+.form-container input[type="text"],
+.form-container input[type="password"] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -98,20 +96,21 @@ h2 {
 }
 
 /* When the inputs get focus, do something */
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
   background-color: #ddd;
   outline: none;
 }
 
 /* Set a style for the submit/login button */
 .form-container .btn {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 16px 20px;
   border: none;
   cursor: pointer;
   width: 100%;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   opacity: 0.8;
 }
 
@@ -121,721 +120,13 @@ h2 {
 }
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
+.form-container .btn:hover,
+.open-button:hover {
   opacity: 1;
 }
 
-/* body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  background-color: #fff;
-  color: #343a40;
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 15px;
-  text-align: center;
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 50px;
-  max-height: 50px;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 15px;
-  color: #343a40;
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#content {
-  margin-left: 250px;
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-/* style.css */
-
-
-/* Sidebar styles */
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  background-color: #fff;
-  color: #343a40;
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-/* Logo styles */
-#sidebar .navbar-brand {
-  padding: 20px 15px;
-  text-align: center;
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 100px;
-  max-height: 100px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  transition: all 0.3s;
-}
-
-#sidebar .navbar-brand img:hover {
-  transform: scale(1.1); /* Scale up the logo on hover */
-}
-
-/* Sidebar menu styles */
-#sidebar ul.nav li a {
-  padding: 10px 15px;
-  color: #343a40;
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-/* Main content styles */
-#content {
-  margin-left: 250px;
-  transition: all 0.3s;
-  padding: 20px;
-}
-
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  background-color: #fff;
-  color: #343a40;
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 15px;
-  text-align: center;
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 50px;
-  max-height: 50px;
-}
-
-#sidebar ul.nav {
-  margin-top: 20px;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 15px 20px;
-  color: #343a40;
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#content {
-  margin-left: 250px;
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 250px;
-  background-color: #fff;
-  color: #343a40;
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 15px;
-  text-align: center;
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 50px;
-  max-height: 50px;
-}
-
-#sidebar ul.nav {
-  margin-top: 20px;
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 12px 20px;
-  color: #343a40;
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#content {
-  margin-left: 250px;
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 200px; /* Adjusted width for a more compact sidebar */
-  background-color: #fff;
-  color: #343a40;
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 15px;
-  text-align: center;
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 60px; /* Increased size of the logo */
-  max-height: 60px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 20px;
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #343a40;
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #f8f9fa;
-  color: #ffd700;
-}
-
-#content {
-  margin-left: 200px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: #343a40; /* Changed sidebar background color to a darker shade */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  border-radius: 50%;
-  max-width: 60px; /* Increased size of the logo */
-  max-height: 60px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 20px;
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 60px;
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 5px; /* Reduced padding around the logo */
-  border-radius: 50%;
-  max-width: 50px; /* Reduced size of the logo */
-  max-height: 50px; /* Reduced size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 20px;
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 40px; /* Reduced space above the logo */
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 10px; /* Reduced padding around the logo */
-  border-radius: 50%;
-  max-width: 60px; /* Increased size of the logo */
-  max-height: 60px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 10px; /* Reduced space above the menu */
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 20px; /* Further reduced space above the logo */
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 8px; /* Adjusted padding around the logo */
-  border-radius: 50%;
-  max-width: 60px; /* Increased size of the logo */
-  max-height: 60px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 5px; /* Further reduced space above the menu */
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-  border-left: 4px solid #ffd700; /* Added left border on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  padding-top: 10px; /* Reduced space above the logo */
-  border-right: 1px solid #dee2e6;
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 15px; /* Adjusted padding around the logo */
-  border-radius: 50%;
-  max-width: 70px; /* Increased size of the logo */
-  max-height: 70px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 5px; /* Reduced space above the menu */
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-}
-
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-  z-index: 1;
-  overflow-y: auto;
-  border-right: 3px solid #dee2e6;
-  /* Include pattern background */
-  background-image: url("/static/images/pattern.jpg");
-}
-
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 15px; /* Adjusted padding around the logo */
-  border-radius: 50%;
-  max-width: 70px; /* Increased size of the logo */
-  max-height: 70px; /* Increased size of the logo */
-}
-
-#sidebar ul.nav {
-  margin-top: 5px; /* Reduced space above the menu */
-  padding-left: 0;
-}
-
-#sidebar ul.nav li {
-  margin-bottom: 0;
-}
-
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
-}
-
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
-}
-
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
-}
-
-#content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
-  padding: 20px;
-} 
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f8f9fa;
   overflow-x: hidden;
 }
@@ -845,49 +136,18 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  width: 220px; /* Adjusted width for a more compact sidebar */
-  background-color: rgba(52, 58, 64, 0.8); /* Less dark and slightly transparent background */
-  color: #fff; /* Changed text color to white */
+  background-color: rgb(248, 248, 248); /* Less dark and slightly transparent background */
+  color: black; /* Changed text color to white */
   transition: all 0.3s;
-  z-index: 1;
+  z-index: 3;
   overflow-y: auto;
   padding-top: 10px; /* Reduced space above the logo */
   border-right: 1px solid #dee2e6;
-  /* Include pattern background */
-  background-image: url("/static/images/pattern4.png"); /* Changed to pattern.jpg */
-  background-size: cover; /* Ensure pattern covers the entire background */
+  box-shadow: 2px 0px 1px 0.5px #888888;
 }
 
-#sidebar .navbar-brand {
-  padding: 10px 0;
-  text-align: center;
-  border-bottom: 1px solid #fff; /* Added border to separate logo from menu */
-}
-
-#sidebar .navbar-brand a {
-  display: block; /* Make the logo a block-level element */
-  padding: 10px; /* Added padding to the logo */
-  text-decoration: none;
-  color: #fff; /* Changed text color to white */
-  transition: all 0.3s;
-}
-
-#sidebar .navbar-brand a:hover {
-  background-color: #495057; /* Darker background color on hover */
-}
-
-#sidebar .navbar-brand img {
-  display: block;
-  margin: 0 auto; /* Center the logo */
-  padding: 15px; /* Adjusted padding around the logo */
-  border-radius: 50%;
-  max-width: 80px; /* Reduced size of the logo */
-  max-height: 80px; /* Reduced size of the logo */
-  transition: all 0.3s; /* Added transition for smooth effect */
-}
-
-#sidebar .navbar-brand:hover img {
-  filter: brightness(1.2); /* Lighten the image when hovered */
+#sidebar ul .nav-item {
+  background-color: rgb(248, 248, 248);
 }
 
 #sidebar ul.nav {
@@ -899,27 +159,25 @@ body {
   margin-bottom: 5px; /* Added margin between menu items */
 }
 
-#sidebar ul.nav li a {
-  padding: 10px 20px; /* Adjusted padding for a more compact menu */
-  color: #fff; /* Changed text color to white */
-  text-decoration: none;
-  display: block;
-  transition: all 0.3s;
+/* Custom Styles */
+.custom-nav .nav-link {
+  color: #333; /* Text color */
+  border-radius: 10px;
 }
 
-#sidebar ul.nav li a:hover {
-  background-color: #495057; /* Darker background color on hover */
-  color: #ffd700; /* Changed text color to gold on hover */
+.custom-nav .nav-link:hover {
+  background-color: #d0e6fc; /* Hover background color */
+  color: #007bff; /* Hover text color */
 }
 
-#sidebar ul.nav li.active a {
-  background-color: #495057; /* Darker background color for active menu item */
-  color: #ffd700; /* Changed text color to gold for active menu item */
+.custom-nav .nav-link.active {
+  background-color: #007bff; /* Active background color */
+  color: #fff; /* Active text color */
 }
 
 #content {
-  margin-left: 220px; /* Adjusted margin for the content area */
-  transition: all 0.3s;
+  /* Adjusted margin for the content area */
+  transition: all 0.2s;
   padding: 20px;
 }
 
@@ -1043,7 +301,6 @@ body {
 
 /* Add your custom styling here */
 body {
-  background-image: linear-gradient(to right, #a16bfe, #bc3d2f); /* Dark background color matching the sidebar */
   color: #fff; /* Text color for readability */
 }
 
@@ -1052,9 +309,8 @@ body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 250px; /* Adjust sidebar width */
-  background-color: #262626; /* Dark background color */
-  padding-top: 50px; /* Same height as the navigation bar */
+  background-color: #007bff; /* Dark background color */
+  padding-top: 150px; /* Same height as the navigation bar */
 }
 
 .content {
@@ -1082,18 +338,110 @@ body {
 }
 
 .navbar-nav .nav-link:hover {
-  background-color: rgba(255, 215, 0, 0.5); /* Hover background color with transparency */
+  background-color: rgba(
+    255,
+    215,
+    0,
+    0.5
+  ); /* Hover background color with transparency */
 }
 
 .bg-dark-golden {
-  background-image: linear-gradient(to right, #8B5A2B, #CD853F); /* Dark golden gradient */
+  background-image: linear-gradient(
+    to right,
+    #8b5a2b,
+    #cd853f
+  ); /* Dark golden gradient */
 }
 
 .logo-animation {
-  transition: transform 0.3s, filter 0.3s; /* Add transition for smoother animation */
+  transition: transform 0.1s, filter 0.1s; /* Add transition for smoother animation */
+  cursor: pointer;
 }
 
 .logo-animation:hover {
-  transform: scale(1.1);
-  filter: brightness(1.5); /* Increase brightness by 20% when hovered over */
+  transform: scale(1.2);
+  filter: brightness(1.1); /* Increase brightness by 20% when hovered over */
+}
+
+.sub-menu-wrap {
+  position: absolute;
+  top: 13%;
+  right: 1%;
+  width: 16rem;
+  border-radius: 3px;
+  max-height: 0px;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.1);
+  background-color: rgb(251, 255, 254);
+  transition: max-height 0.5s;
+}
+
+.sub-menu-wrap.open-menu {
+  max-height: 400px;
+}
+
+.sub-menu-profile {
+  background-color: rgb(251, 255, 254);
+  padding: 20px;
+  margin: 2px;
+}
+
+.sub-menu-profile hr {
+  border: 0;
+  height: 1px;
+  width: 100%;
+  margin: 15px 0 10px;
+  background: #ccc;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info h3 {
+  font-weight: 500;
+  color: black;
+}
+
+.user-info img {
+  width: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.sub-menu-profile-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #525252;
+  margin: 12px 0;
+}
+
+.sub-menu-profile-link p {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.sub-menu-profile-link img {
+  width: 40px;
+  background: #e5e5e5;
+  border-radius: 50%;
+  padding: 8px;
+  margin-right: 15px;
+}
+
+.sub-menu-profile-link span {
+  font-size: 22px;
+  transition: transform 0.5s;
+}
+
+.sub-menu-profile-link:hover span {
+  transform: translateX(5px);
+}
+
+.sub-menu-profile-link:hover p {
+  font-weight: 600;
 }

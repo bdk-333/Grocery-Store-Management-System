@@ -1,12 +1,66 @@
-{% extends "base.html" %} {% block body %}
-<div class="container mt-5">
-  <h2 class="text-center mb-4" style="font-family: Verdana; color: #ffd700">
+{% extends "base.html" %} 
+
+{% block nav %}
+<li class="nav-item list-group-item">
+  <a class="nav-link" aria-current="page" href="/home">
+    <img
+      src="{{url_for('static', filename='/images/dashboard.png')}}"
+      alt="dashboard"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Dashboard</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getProducts">
+    <img
+      src="{{url_for('static', filename='/images/products.png')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Products</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link active" href="/orders">
+    <img
+      src="{{url_for('static', filename='/images/orders.png')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Orders</p>
+  </a>
+</li>
+          {% endblock %}
+
+{% block body %}
+<div class="container mt-5" style="width: 92%; margin: auto;">
+  <h2 class="text-center mb-4" style="font-family: Verdana; margin-top: -30px; margin-bottom: 10px;">
     MANAGE ORDERS
   </h2>
+  <hr>
   <!-- Add Order Button -->
   <button
     type="button"
-    class="btn btn-outline-light add-btn mb-3"
+    class="btn btn-outline-dark add-btn mb-3"
     data-bs-toggle="modal"
     data-bs-target="#addOrderModal"
     style="font-weight: bold"
@@ -117,10 +171,10 @@
         </form>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-outline-success">Save</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-outline-success">Save</button>
       </div>
     </div>
   </div>
