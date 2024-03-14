@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-
-{% block nav %}
+{% extends "base.html" %} {% block nav %}
 <li class="nav-item list-group-item">
   <a class="nav-link" aria-current="page" href="/home">
     <img
@@ -49,14 +47,15 @@
     <p style="display: inline-block; margin: 2px 0">Orders</p>
   </a>
 </li>
-          {% endblock %}
-
-{% block body %}
-<div class="container mt-5" style="width: 92%; margin: auto;">
-  <h2 class="text-center mb-4" style="font-family: Verdana; margin-top: -30px; margin-bottom: 10px;">
+{% endblock %} {% block body %}
+<div class="container mt-5" style="width: 92%; margin: auto">
+  <h2
+    class="text-center mb-4"
+    style="font-family: Verdana; margin-top: -30px; margin-bottom: 10px"
+  >
     MANAGE ORDERS
   </h2>
-  <hr>
+  <hr />
   <!-- Add Order Button -->
   <button
     type="button"
@@ -73,37 +72,51 @@
     <table class="table table-bordered table-hover rounded">
       <thead class="bg-primary text-white">
         <tr>
-          <th>Customer Name</th>
-          <th>Order ID</th>
-          <th>Product Name</th>
-          <th>Quantity</th>
-          <th>Total Price</th>
-          <th>Action</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col" style="display: none">Order ID</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
+        {% for order in orders %}
         <tr>
-          <td>John Doe</td>
-          <td>1</td>
-          <td>Apples</td>
-          <td>5</td>
-          <td>$10.00</td>
+          <td>{{ order.customer_name }}</td>
+          <td style="display: none">{{ order.id }}</td>
+          <td>{{ order.product_id }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.total_price }}</td>
+          <td>{{ order.order_status }}</td>
           <td>
-            <button type="button" class="btn btn-sm btn-info">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
+            <button type="button" class="btn btn-warning delete-product">
+              Edit
+            </button>
+            <!-- <button type="button" class="btn btn-danger delete-product">
+              Delete
+            </button> -->
+          </td>
+
+          <td>
+            <form action="/deleteOrder" method="post">
+              <input
+                type="text"
+                name="id"
+                value="{{ order.id }}"
+                style="display: none"
+              />
+              <input
+                class="btn btn-danger"
+                type="submit"
+                value="Delete"
+                onclick="return confirm('Are you sure you want to delete this product?')"
+              />
+            </form>
           </td>
         </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>2</td>
-          <td>Oranges</td>
-          <td>3</td>
-          <td>$6.00</td>
-          <td>
-            <button type="button" class="btn btn-sm btn-info">Edit</button>
-            <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
-          </td>
-        </tr>
+        {% endfor %}
         <!-- Add more rows for additional orders -->
       </tbody>
     </table>
@@ -131,50 +144,48 @@
       </div>
       <div class="modal-body">
         <!-- Form to Add Order -->
-        <form>
+        <form action="/insertOrder" method="post" id="order-form">
           <div class="mb-3">
             <label for="customerName" class="form-label">Customer Name</label>
             <input
               type="text"
               class="form-control"
               id="customerName"
+              name="customer_name"
               placeholder="Enter customer name"
             />
           </div>
+
           <div class="mb-3">
             <label for="productName" class="form-label">Product Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="productName"
-              placeholder="Enter product name"
-            />
+            <select name="product_name" id="product_name">
+              {% for product in products %}
+              <option value="{{ product }}">{{ product }}</option>
+              {% endfor %}
+            </select>
           </div>
+
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity</label>
             <input
               type="number"
               class="form-control"
               id="quantity"
+              name="quantity"
               placeholder="Enter quantity"
             />
           </div>
-          <div class="mb-3">
-            <label for="totalPrice" class="form-label">Total Price</label>
-            <input
-              type="text"
-              class="form-control"
-              id="totalPrice"
-              placeholder="Enter total price"
-            />
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-success">Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-success">Save</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
       </div>
     </div>
   </div>

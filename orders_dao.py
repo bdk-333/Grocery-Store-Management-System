@@ -4,25 +4,64 @@ from datetime import datetime
 from sql_connection import connect_to_sql
 
 
+def get_orders(cnx):
+    cursor = cnx.cursor()
+    order_query = "select orders.id, orders.customer_name, orders.status, order_items.order_id, " \
+                  "order_items.product_id, " \
+                  "order_items.quantity, order_items.total_price \
+                   from orders " \
+                  "inner join order_items on orders.id=order_items.order_id; "
+
+    cursor.execute(order_query)
+
+    response = []
+
+    for (id, customer_name, status, order_id, product_id, quantity, total_price) in cursor:
+        response.append(
+            {
+                "id": id,
+                "customer_name": customer_name,
+                "order_status": status,
+                "order_id": order_id,
+                "product_id": product_id,
+                "quantity": quantity,
+                "total_price": total_price,
+            }
+        )
+
+    for i in range(len(response)):
+        query = "select name from products where product_id=" + str(response[i]["product_id"])
+        cursor.execute(query)
+        for name in cursor:
+            response[i]["product_id"] = name[0]
+
+    return response
+
+
+def count_orders(cnx):
+    orders = get_orders(cnx)
+    return len(orders)
+
+
 def insert_order(cnx, order):
     # insert order
     cursor = cnx.cursor()
     order_query = ("insert into orders "
-                   "(customer_name, total, date_time) "
-                   "values (%s, %s, %s)")
-    order_data = (order["customer_name"], order["total"], order["date_time"])
+                   "(customer_name, created_at, status, total_price) "
+                   "values (%s, %s, %s, %s)")
+    order_data = (order["customer_name"], order["created_at"], order["status"], order["total_price"])
 
     cursor.execute(order_query, order_data)
     order_id = cursor.lastrowid
 
     # insert order details
-    order_details_query = ("insert into order_details "
+    order_details_query = ("insert into order_items "
                            "(order_id, product_id, quantity, total_price)"
                            "values (%s, %s, %s, %s)")
 
     order_details_data = []
 
-    for order_detail_record in order["order_details"]:
+    for order_detail_record in order["order_items"]:
         order_details_data.append([
             order_id,
             int(order_detail_record["product_id"]),
@@ -34,22 +73,43 @@ def insert_order(cnx, order):
     return order_id
 
 
+def delete_order(cnx, order_id):
+    cursor = cnx.cursor()
+
+    order_details_query = "delete from order_items where order_id=%s"
+    cursor.execute(order_details_query, (order_id,))
+
+    order_query = "delete from orders where id=%s"
+    cursor.execute(order_query, (order_id,))
+    cnx.commit()
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
-    print(insert_order(connection, {
-        'customer_name': 'sample',
-        'total': '500',
-        'date_time': datetime.now(),
-        'order_details': [
-            {
-                'product_id': 10,
-                'quantity': 2,
-                'total_price': 50
-            },
-            {
-                'product_id': 15,
-                'quantity': 1,
-                'total_price': 30
-            }
-        ]
-    }))
+    # print(insert_order(connection, {
+    #     'customer_name': 'sample',
+    #     'total_price': '500',
+    #     'status': 'pending',
+    #     'created_at': datetime.now(),
+    #     'order_items': [
+    #         {
+    #             'product_id': 19,
+    #             'quantity': 2,
+    #             'total_price': 100
+    #         },
+    #         {
+    #             'product_id': 15,
+    #             'quantity': 1,
+    #             'total_price': 50
+    #         }
+    #     ]
+    # }))
+
+    # print(get_orders(connection))
+    # print(count_orders(connection))
+
+    delete_order(connection, 3)
+
+    orders_list = get_orders(connection)
+    for _ in orders_list:
+        print(_)

@@ -14,12 +14,31 @@ def verify_user(cnx, username):
     users = get_user(cnx)
 
     for user in users:
-        if user[1] == username:
+        if user[2] == username:
             return True
 
     return False
 
 
+def insert_user(cnx, user):
+    cursor = cnx.cursor()
+    query = "insert into users (user_role, username, password) values (%s, %s, %s)"
+    data = (user["user_role"], user["username"], user["password"])
+
+    cursor.execute(query, data)
+    cnx.commit()
+
+    return cursor.lastrowid
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
-    print(verify_user(connection, "abc"))
+    # print(get_user(connection))
+    print(verify_user(connection, "emp"))
+
+    # print(insert_user(connection, {
+    #     "user_role": "employee",
+    #     "username": "new_emp",
+    #     "password": "password"
+    # }))
+
