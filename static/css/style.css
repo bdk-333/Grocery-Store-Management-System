@@ -445,3 +445,8 @@ body {
 .sub-menu-profile-link:hover p {
   font-weight: 600;
 }
+
+select {
+  margin-left: 30px;
+  border-radius: 5px;
+}

@@ -1,0 +1,167 @@
+{% extends "base.html" %} {% block nav %}
+<li class="nav-item list-group-item">
+  <a class="nav-link" aria-current="page" href="/home">
+    <img
+      src="{{url_for('static', filename='/images/dashboard.png')}}"
+      alt="dashboard"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Dashboard</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getProducts">
+    <img
+      src="{{url_for('static', filename='/images/products.png')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Products</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getCategories">
+    <img
+      src="{{url_for('static', filename='/images/categories.jpg')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Categories</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link active" href="/orders">
+    <img
+      src="{{url_for('static', filename='/images/orders.png')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Orders</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getUsers">
+    <img
+      src="{{url_for('static', filename='/images/users.jpg')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Users</p>
+  </a>
+</li>
+{% endblock %}
+
+{% block username %}
+<h3>{{ username }}</h3>
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5" style="width: 92%; margin: auto; padding-bottom: 150px">
+  <div class="main-container">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 10px; margin-top: -30px">
+        EDIT ORDERS
+      </h2>
+    </div>
+    <hr />
+
+    <!-- edit order button -->
+
+    <div class="row" style="margin-left: 25%; width: 100%">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-box me-1"></i>
+            <em> <strong>Edit Order</strong> </em>
+          </div>
+          <div class="card-body">
+            <form id="productForm" action="/editOrder" method="post">
+              <!-- <input type="hidden" name="id" id="id" value="0"> -->
+
+              <div class="mb-3">
+                <label for="product" class="form-label"
+                  >Select Order of &nbsp;</label
+                >
+                <select name="selected_order" id="sp">
+                  {% for name in customer_names %}
+                  <option value="{{ name }}">{{ name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="customerName" class="form-label"
+                  >Edit Customer Name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="customerName"
+                  name="customer_name"
+                  value=""
+                  placeholder="Enter customer name"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="status" class="form-label">New Status &nbsp;</label>
+                <select name="order_status" id="status">
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                  <option value="in progress">In Progress</option>
+                </select>
+              </div>
+
+              <input
+                class="btn btn-primary"
+                type="submit"
+                value="Edit Product"
+                style="display: inline-block"
+              />
+              <div class="mb-3" style="float: right">
+                <a href="/orders">
+                  <button class="btn btn-info">Return</button>
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block js_script %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

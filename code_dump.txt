@@ -1,0 +1,134 @@
+<td>
+                  <form
+                    action="/editProduct"
+                    method="post"
+                    id="editProductForm"
+                  >
+                    <input
+                      type="text"
+                      name="product_id"
+                      value="{{ product.product_id }}"
+                      style="display: none"
+                    />
+                    <input
+                      class="btn btn-warning"
+                      value="Edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProductModal"
+                      style="width: 80px;"
+                    />
+
+                    <!-- edit product Modal -->
+
+                    <div
+                      class="modal fade"
+                      id="editProductModal"
+                      tabindex="-1"
+                      aria-labelledby="editProductModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="editProductModalLabel">
+                              Edit Product
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <!-- Form to Add Order -->
+
+                            <div class="mb-3">
+                              <label for="productName" class="form-label"
+                                >Product Name</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="productName"
+                                name="name"
+                                placeholder="enter new name"
+                              />
+                            </div>
+
+                            <!-- <div class="mb-3">
+                              <input
+                                type="text"
+                                name="product_id"
+                                value="{{ product.product_id }}"
+                                style="display: none"
+                              />
+                            </div> -->
+
+                            <div class="mb-3">
+                              <label for="productPrice" class="form-label"
+                                >New Price per Unit</label
+                              >
+                              <input
+                                type="number"
+                                class="form-control"
+                                id="price"
+                                name="price"
+                                placeholder="Enter new price"
+                              />
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="productStock" class="form-label">
+                                New Stock</label
+                              >
+                              <input
+                                type="number"
+                                class="form-control"
+                                id="stock"
+                                name="stock"
+                                placeholder="Enter no. of units"
+                              />
+                            </div>
+
+                            <div class="mb-3">
+                              <label for="productCategory" class="form-label"
+                                >New Category</label
+                              >
+                              <select name="category" id="category">
+                                <option value="">--Select Category--</option>
+                                {% for category in categories %}
+                                <option value="{{ category }}">
+                                  {{ category }}
+                                </option>
+                                {% endfor %}
+                              </select>
+                            </div>
+
+                            <div class="modal-footer">
+                              <!-- <button
+                          type="submit"
+                          class="btn btn-outline-success"
+                          onclick="return confirm('Are you sure you want to edit this product?')"
+                        >
+                          Save
+                        </button> -->
+                              <input
+                                type="submit"
+                                class="btn btn-outline-success"
+                                value="Save"
+                              />
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </td>

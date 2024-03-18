@@ -38,6 +38,18 @@ def get_orders(cnx):
     return response
 
 
+def get_customer_names(cnx):
+    cursor = cnx.cursor()
+    query = "select customer_name from orders;"
+    cursor.execute(query)
+    names = []
+
+    for customer_name in cursor:
+        names.append(customer_name[0])
+
+    return names
+
+
 def count_orders(cnx):
     orders = get_orders(cnx)
     return len(orders)
@@ -73,6 +85,27 @@ def insert_order(cnx, order):
     return order_id
 
 
+def edit_order(cnx, order):
+    cursor = cnx.cursor()
+    query = "update orders set "
+    data = []
+
+    if order["customer_name"]:
+        query += "customer_name=%s, "
+        data.append(order["customer_name"])
+
+    if order["status"]:
+        query += "status=%s, "
+        data.append(order["status"])
+
+    query = query.rstrip(", ")
+    query += " where customer_name=%s"
+    data.append(order["selected_order"])
+
+    cursor.execute(query, data)
+    cnx.commit()
+
+
 def delete_order(cnx, order_id):
     cursor = cnx.cursor()
 
@@ -82,6 +115,34 @@ def delete_order(cnx, order_id):
     order_query = "delete from orders where id=%s"
     cursor.execute(order_query, (order_id,))
     cnx.commit()
+
+
+def highest_selling_products(cnx):
+    cursor = cnx.cursor()
+    query = "select order_items.product_id, order_items.quantity, order_items.total_price \
+            from orders \
+            inner join order_items on orders.id=order_items.order_id order by quantity desc limit 5;"
+
+    cursor.execute(query)
+
+    response = []
+
+    for (product_id, quantity, total_price) in cursor:
+        response.append(
+            {
+                "product_id": product_id,
+                "quantity": quantity,
+                "total_price": total_price,
+            }
+        )
+
+    for i in range(len(response)):
+        query = "select name from products where product_id=" + str(response[i]["product_id"])
+        cursor.execute(query)
+        for name in cursor:
+            response[i]["product_id"] = name[0]
+
+    return response
 
 
 if __name__ == "__main__":
@@ -108,8 +169,12 @@ if __name__ == "__main__":
     # print(get_orders(connection))
     # print(count_orders(connection))
 
-    delete_order(connection, 3)
+    # delete_order(connection, 3)
 
-    orders_list = get_orders(connection)
-    for _ in orders_list:
-        print(_)
+    # orders_list = get_orders(connection)
+    # for _ in orders_list:
+    #     print(_)
+
+    # print(get_customer_names(connection))
+
+    print(highest_selling_products(connection))

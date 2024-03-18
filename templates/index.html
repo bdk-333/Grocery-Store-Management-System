@@ -46,6 +46,22 @@
   </a>
 </li>
 <li class="nav-item list-group-item">
+  <a class="nav-link" href="/getCategories">
+    <img
+      src="{{url_for('static', filename='/images/categories.jpg')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Categories</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
   <a class="nav-link" href="/orders">
     <img
       src="{{url_for('static', filename='/images/orders.png')}}"
@@ -61,10 +77,30 @@
     <p style="display: inline-block; margin: 2px 0">Orders</p>
   </a>
 </li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getUsers">
+    <img
+      src="{{url_for('static', filename='/images/users.jpg')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Users</p>
+  </a>
+</li>
+{% endblock %} {% block username %}
+<h3>{{ username }}</h3>
 {% endblock %} {% block body %}
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-6">
+    <!-- displaying products count -->
+
+    <div class="col-sm-6" style="width: 293px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
@@ -79,53 +115,118 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+
+    <!-- displaying categories count -->
+
+    <div class="col-sm-6" style="width: 293px">
+      <div class="card" style="box-shadow: 0px 0px 1px black">
+        <div class="card-body">
+          <h5 class="card-title">Categories</h5>
+          <p class="card-text">{{ category_count }}</p>
+        </div>
+        <div class="show-orders" style="margin: 10px">
+          <a href="/getCategories">
+            <button type="button" class="btn btn-outline-secondary add-btn">
+              <span style="font-weight: bold">Show Categories</span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- displaying orders count -->
+
+    <div class="col-sm-6" style="width: 293px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Orders</h5>
           <p class="card-text">{{ order_count }}</p>
         </div>
+        <div class="show-orders" style="margin: 10px">
+          <a href="/orders">
+            <button type="button" class="btn btn-outline-secondary add-btn">
+              <span style="font-weight: bold">Show Orders</span>
+            </button>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-md-12">
-      <div class="card" style="box-shadow: 0px 0px 2px black">
+
+    <!-- displaying users count -->
+
+    <div class="col-sm-6" style="width: 293px">
+      <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
-          <h5 class="card-title">Financial Overview</h5>
-          <canvas id="financialChart" width="400" height="200"></canvas>
+          <h5 class="card-title">Users</h5>
+          <p class="card-text">{{ user_count }}</p>
+        </div>
+        <div class="show-orders" style="margin: 10px">
+          <a href="/getUsers">
+            <button type="button" class="btn btn-outline-secondary add-btn">
+              <span style="font-weight: bold">Show Users</span>
+            </button>
+          </a>
         </div>
       </div>
     </div>
   </div>
-  <div class="row mt-4">
-    <div class="col-md-12">
-      <div class="card" style="box-shadow: 0px 0px 1px black">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Highest selling Products</strong> </em>
+        </div>
         <div class="card-body">
-          <h5 class="card-title">Employee Data</h5>
-          <table class="table">
+          <table class="table table-bordered">
             <thead>
-              <tr>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Salary</th>
+              <tr style="border: 1px solid black">
+                <th scope="col">Name</th>
+                <th scope="col">Units sold</th>
+                <th scope="col">Total Price</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>Manager</td>
-                <td>$5000</td>
+              {% for product in highest_selling %}
+              <tr style="border: 1px solid black">
+                <td>{{ product.product_id }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.total_price }}</td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>Sales Associate</td>
-                <td>$3000</td>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display product List -->
+
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Recently added Products</strong> </em>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="border: 1px solid black">
+                <th scope="col">Name</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Unit Price</th>
               </tr>
-              <!-- Add more rows as needed -->
+            </thead>
+            <tbody>
+              {% for product in recent_products %}
+              <tr style="border: 1px solid black">
+                <td>{{ product.name }}</td>
+                <td>{{ product.unit }}</td>
+                <td>{{ product.price_per_unit }}</td>
+              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

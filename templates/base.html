@@ -93,34 +93,11 @@
                     src="{{url_for('static', filename='/images/user-pic.png')}}"
                     alt="User Picture"
                   />
-                  <h3>User Name</h3>
+                  {% block username %} {% endblock %}
                 </div>
                 <hr />
-                <a href="#" class="sub-menu-profile-link">
-                  <img
-                    src="{{url_for('static', filename='/images/profile.png')}}"
-                    alt="Profile logo"
-                  />
-                  <p>Edit Profile</p>
-                  <span>></span>
-                </a>
-                <a href="#" class="sub-menu-profile-link">
-                  <img
-                    src="{{url_for('static', filename='/images/setting.png')}}"
-                    alt="Profile logo"
-                  />
-                  <p>Settings</p>
-                  <span>></span>
-                </a>
-                <a href="#" class="sub-menu-profile-link">
-                  <img
-                    src="{{url_for('static', filename='/images/help.png')}}"
-                    alt="Profile logo"
-                  />
-                  <p>Help & Support</p>
-                  <span>></span>
-                </a>
-                <a href="/" class="sub-menu-profile-link">
+
+                <a href="/logout" class="sub-menu-profile-link">
                   <img
                     src="{{url_for('static', filename='/images/logout.png')}}"
                     alt="Profile logo"

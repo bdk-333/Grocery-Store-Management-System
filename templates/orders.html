@@ -32,6 +32,22 @@
   </a>
 </li>
 <li class="nav-item list-group-item">
+  <a class="nav-link" href="/getCategories">
+    <img
+      src="{{url_for('static', filename='/images/categories.jpg')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Categories</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
   <a class="nav-link active" href="/orders">
     <img
       src="{{url_for('static', filename='/images/orders.png')}}"
@@ -47,7 +63,29 @@
     <p style="display: inline-block; margin: 2px 0">Orders</p>
   </a>
 </li>
-{% endblock %} {% block body %}
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getUsers">
+    <img
+      src="{{url_for('static', filename='/images/users.jpg')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Users</p>
+  </a>
+</li>
+{% endblock %}
+
+{% block username %}
+<h3>{{ username }}</h3>
+{% endblock %}
+
+{% block body %}
 <div class="container mt-5" style="width: 92%; margin: auto">
   <h2
     class="text-center mb-4"
@@ -78,7 +116,7 @@
           <th scope="col">Quantity</th>
           <th scope="col">Total Price</th>
           <th scope="col">Status</th>
-          <th scope="col">Action</th>
+          <th scope="col" colspan="2" style="text-align: center;">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -90,16 +128,15 @@
           <td>{{ order.quantity }}</td>
           <td>{{ order.total_price }}</td>
           <td>{{ order.order_status }}</td>
-          <td>
-            <button type="button" class="btn btn-warning delete-product">
+          <td style="text-align: center;">
+            <a href="editorder.html">
+              <button type="button" class="btn btn-warning" style="width: 80%;">
               Edit
             </button>
-            <!-- <button type="button" class="btn btn-danger delete-product">
-              Delete
-            </button> -->
+            </a>
           </td>
 
-          <td>
+          <td style="text-align: center;">
             <form action="/deleteOrder" method="post">
               <input
                 type="text"
@@ -116,6 +153,108 @@
             </form>
           </td>
         </tr>
+
+        <!-- edit order Modal -->
+
+        <div
+          class="modal fade"
+          id="editOrderModal"
+          tabindex="-1"
+          aria-labelledby="editProductModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <!-- Form to edit Order -->
+                <form action="/editOrder" method="post" id="edit-order-form">
+                  <div class="mb-3">
+                    <label for="customerName" class="form-label"
+                      >Edit Customer Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="customerName"
+                      name="customer_name"
+                      value=""
+                      placeholder="Enter customer name"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <input
+                      type="text"
+                      name="id"
+                      value="{{ order.id }}"
+                      style="display: none"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="productName" class="form-label"
+                      >Change Product</label
+                    >
+                    <select name="product_name" id="product_name">
+                      {% for product in products %}
+                      <option value="{{ product }}">{{ product }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="quantity" class="form-label"
+                      >New Quantity</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="quantity"
+                      name="quantity"
+                      placeholder="Enter new quantity"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="status" class="form-label">New Status</label>
+                    <select name="order_status" id="status">
+                      <option value="pending">Pending</option>
+                      <option value="completed">Completed</option>
+                      <option value="in progress">In Progress</option>
+                    </select>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button
+                      type="submit"
+                      class="btn btn-outline-success"
+                      onclick="return confirm('Are you sure you want to edit this product?')"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {% endfor %}
         <!-- Add more rows for additional orders -->
       </tbody>
@@ -157,7 +296,7 @@
           </div>
 
           <div class="mb-3">
-            <label for="productName" class="form-label">Product Name</label>
+            <label for="productName" class="form-label">Product Name &nbsp;</label>
             <select name="product_name" id="product_name">
               {% for product in products %}
               <option value="{{ product }}">{{ product }}</option>

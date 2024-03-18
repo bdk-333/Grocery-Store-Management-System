@@ -16,7 +16,7 @@
   </a>
 </li>
 <li class="nav-item list-group-item">
-  <a class="nav-link active" href="/getProducts">
+  <a class="nav-link" href="/getProducts">
     <img
       src="{{url_for('static', filename='/images/products.png')}}"
       alt="Products"
@@ -32,7 +32,7 @@
   </a>
 </li>
 <li class="nav-item list-group-item">
-  <a class="nav-link" href="/getCategories">
+  <a class="nav-link active" href="/getCategories">
     <img
       src="{{url_for('static', filename='/images/categories.jpg')}}"
       alt="Products"
@@ -90,7 +90,7 @@
 <div class="main-container">
   <div class="container">
     <h2 style="text-align: center; margin-bottom: 10px; margin-top: -30px">
-      MANAGE PRODUCTS
+      MANAGE CATEGORIES
     </h2>
   </div>
   <hr />
@@ -98,80 +98,61 @@
   <!-- Add product button -->
 
   <div class="row">
-    <div class="col-lg-6" style="width: 33%">
+    <div class="col-lg-6" style="width: 41.4%">
       <div class="card mb-4">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
-          <em> <strong>Add New Product</strong> </em>
+          <em> <strong>Add New Category</strong> </em>
         </div>
         <div class="card-body">
-          <form id="productForm" action="/insertProduct" method="post">
+          <form id="categoryForm" action="/insertCategory" method="post">
             <!-- <input type="hidden" name="id" id="id" value="0"> -->
             <div class="mb-3">
-              <label for="productName" class="form-label">Product Name</label>
+              <label for="productName" class="form-label">Category Name</label>
               <input
                 type="text"
                 class="form-control"
                 id="name"
-                placeholder="Enter product name"
+                placeholder="Enter category name"
                 name="name"
                 value=""
                 required
               />
             </div>
+            <input class="btn btn-primary" type="submit" value="Add Category" />
+          </form>
+        </div>
+      </div>
 
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Edit Category</strong> </em>
+        </div>
+        <div class="card-body">
+          <form id="categoryForm" action="/editCategory" method="post">
+            <!-- <input type="hidden" name="id" id="id" value="0"> -->
             <div class="mb-3">
-              <label for="uom">Choose a unit:</label>
-              <select class="form-select" name="uom" id="uom" required>
-                <option selected value="">
-                  Select appropriate Unit for product
-                </option>
-                <hr style="margin-top: 5px; margin-bottom: 5px" />
-                <option value="1">Each</option>
-                <option value="2">Kg</option>
-                <option value="3">Litre</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label for="productPrice" class="form-label"
-                >Product Price per Unit</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="price"
-                placeholder="Enter product price"
-                name="price"
-                value=""
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="productStock" class="form-label"
-                >Stock (No. of Units)</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="stock"
-                placeholder="Enter no. of units"
-                name="stock"
-                value=""
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="productCategory" class="form-label">Category&nbsp;</label>
-              <select name="category" id="category">
-                {% for category in categories %}
+              <label for="productName" class="form-label">Category Name &nbsp;</label>
+              <select name="selected_category">
+                {% for category in category_names %}
                 <option value="{{ category }}">{{ category }}</option>
                 {% endfor %}
               </select>
             </div>
-            <input class="btn btn-primary" type="submit" value="Add Product" />
+            <div class="mb-3">
+              <label for="productName" class="form-label">New Category Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter category name"
+                name="category"
+                value=""
+                required
+              />
+            </div>
+            <input class="btn btn-primary" type="submit" value="Edit Category" />
           </form>
         </div>
       </div>
@@ -179,54 +160,41 @@
 
     <!-- Display product List -->
 
-    <div class="col-lg-6" style="width: 67%">
+    <div class="col-lg-6" style="width: 58.6%">
       <div class="card mb-4">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
-          <em> <strong>Product List</strong> </em>
+          <em> <strong>All Categories</strong> </em>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
             <thead>
-              <tr style="border: 1px solid black;">
-                <th scope="col">Name</th>
-                <th scope="col" style="display: none">Product ID</th>
-                <th scope="col">Unit</th>
-                <th scope="col">Unit Price</th>
-                <th scope="col">Stock</th>
+              <tr>
+                <th scope="col">Id</th>
                 <th scope="col">Category</th>
-                <th scope="col" colspan="2" style="text-align: center;">Action</th>
+                <th scope="col" style="text-align: center; width: 20%;">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
-              {% for product in products %}
-              <tr style="border: 1px solid black;">
-                <td>{{ product.name }}</td>
-                <td style="display: none">{{ product.product_id }}</td>
-                <td>{{ product.uom_name }}</td>
-                <td>{{ product.price_per_unit }}</td>
-                <td>{{ product.stock }}</td>
-                <td>{{ product.category }}</td>
-                <td>
-                  <a href="editproduct.html">
-                    <button type="button" class="btn btn-warning">
-                    Edit
-                  </button>
-                  </a>
-                </td>
-                <td>
-                  <form action="/deleteProduct" method="post">
+              {% for category in categories %}
+              <tr>
+                <td>{{ category.category_id }}</td>
+                <td>{{ category.category }}</td>
+                <td style="text-align: center">
+                  <form action="/deleteCategory" method="post">
                     <input
                       type="text"
-                      name="product_id"
-                      value="{{ product.product_id }}"
+                      name="category_id"
+                      value="{{ category.category_id }}"
                       style="display: none"
                     />
                     <input
                       class="btn btn-danger"
                       type="submit"
                       value="Delete"
-                      onclick="return confirm('Are you sure you want to delete this product?')"
+                      onclick="return confirm('Are you sure you want to delete this Category?')"
                     />
                   </form>
                 </td>
