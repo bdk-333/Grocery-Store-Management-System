@@ -103,7 +103,8 @@ def delete_product(cnx, product_id):
 
 def recent_products(cnx):
     cursor = cnx.cursor()
-    query = "select name, price_per_unit, uom_name from products inner join uom on products.uom_id=uom.uom_id order by product_id desc limit 5;"
+    query = "select name, price_per_unit, uom_name from products inner join uom on products.uom_id=uom.uom_id " \
+            "order by product_id desc limit 5;"
     cursor.execute(query)
 
     recents = []
@@ -118,6 +119,26 @@ def recent_products(cnx):
         )
 
     return recents
+
+
+def low_stock_products(cnx):
+    cursor = cnx.cursor()
+    query = "select name, price_per_unit, stock, uom_name from products inner join uom on products.uom_id=uom.uom_id " \
+            "where stock<10 order by name;"
+    cursor.execute(query)
+
+    low_stocks = []
+
+    for (name, price_per_unit, stock, uom_name) in cursor:
+        low_stocks.append(
+            {
+                "name": name,
+                "price": price_per_unit,
+                "stock": stock,
+                "unit": uom_name
+            }
+        )
+    return low_stocks
 
 
 if __name__ == "__main__":
@@ -144,4 +165,6 @@ if __name__ == "__main__":
 
     # print(get_all_products(connection))
 
-    print(recent_products(connection))
+    # print(recent_products(connection))
+
+    print(low_stock_products(connection))

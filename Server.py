@@ -5,11 +5,18 @@ import orders_dao
 import products_dao
 import uom_dao
 import users_dao
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect
 from sql_connection import connect_to_sql
 from datetime import datetime
 
 app = Flask(__name__)
+
+
+@app.after_request
+def add_header(response):
+    response.cache_control.no_store = True
+    return response
+
 
 __connection = connect_to_sql()
 username = ""
@@ -26,16 +33,16 @@ def login():
 
 @app.route('/login', methods=["GET", "POST"])
 def landing_page():
-    product_count = products_dao.count_products(__connection)
-    order_count = orders_dao.count_orders(__connection)
-    category_count = categories_dao.count_categories(__connection)
-    user_count = users_dao.count_users(__connection)
+    #     product_count = products_dao.count_products(__connection)
+    #     order_count = orders_dao.count_orders(__connection)
+    #     category_count = categories_dao.count_categories(__connection)
+    #     user_count = users_dao.count_users(__connection)
     user = request.form.get("username")
     password = request.form.get("password")
     user_exists = users_dao.verify_user(__connection, user, password)
 
-    recent_products = products_dao.recent_products(__connection)
-    highest_selling = orders_dao.highest_selling_products(__connection)
+    # recent_products = products_dao.recent_products(__connection)
+    # highest_selling = orders_dao.highest_selling_products(__connection)
 
     global username
     username = user
@@ -64,9 +71,11 @@ def index():
     category_count = categories_dao.count_categories(__connection)
     recent_products = products_dao.recent_products(__connection)
     highest_selling = orders_dao.highest_selling_products(__connection)
+    pending_orders = orders_dao.pending_orders(__connection)
+    low_stocks = products_dao.low_stock_products(__connection)
     return render_template("index.html", product_count=product_count, order_count=order_count, user_count=user_count,
                            category_count=category_count, username=username, recent_products=recent_products,
-                           highest_selling=highest_selling)
+                           highest_selling=highest_selling, pending_orders=pending_orders, low_stocks=low_stocks)
 
 
 @app.route("/getProducts")
@@ -182,6 +191,11 @@ def insert_order():
     status = "pending"
     created_at = datetime.now()
 
+    query = "update products set stock=stock-%s where name=%s"
+    data = [quantity, product_name]
+    cursor.execute(query, data)
+    __connection.commit()
+
     prod_id = []
     query = "SELECT product_id, price_per_unit FROM products WHERE name = %s;"
     cursor.execute(query, (product_name,))
@@ -254,7 +268,8 @@ def show_categories():
     sorted_category = sorted(categories, key=lambda d: d['category_id'])
     category_names = categories_dao.get_category_names(__connection)
 
-    return render_template("categories.html", categories=sorted_category, category_names=category_names, username=username)
+    return render_template("categories.html", categories=sorted_category, category_names=category_names,
+                           username=username)
 
 
 @app.route("/insertCategory", methods=["GET", "POST"])
@@ -324,13 +339,13 @@ def register():
 @app.route('/new_register', methods=["GET", "POST"])
 def new_register():
     # insert new user into the database
-    username = request.form.get("username")
+    reg_username = request.form.get("username")
     password = request.form.get("password")
     user_role = request.form.get("user_role")
 
     new_user = {
         "user_role": user_role,
-        "username": username,
+        "username": reg_username,
         "password": password
     }
 

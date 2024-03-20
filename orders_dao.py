@@ -82,6 +82,7 @@ def insert_order(cnx, order):
         ])
     cursor.executemany(order_details_query, order_details_data)
     cnx.commit()
+
     return order_id
 
 
@@ -145,6 +146,40 @@ def highest_selling_products(cnx):
     return response
 
 
+def pending_orders(cnx):
+    cursor = cnx.cursor()
+
+    query = "select orders.customer_name, orders.status,  \
+            order_items.product_id,  \
+            order_items.quantity, order_items.total_price \
+            from orders  \
+            inner join order_items on orders.id=order_items.order_id \
+            where status='pending' order by created_at;"
+
+    cursor.execute(query)
+
+    response = []
+
+    for (customer_name, status, product_id, quantity, total_price) in cursor:
+        response.append(
+            {
+                "customer_name": customer_name,
+                "status": status,
+                "product_id": product_id,
+                "quantity": quantity,
+                "total_price": total_price
+            }
+        )
+
+    for i in range(len(response)):
+        query = "select name from products where product_id=" + str(response[i]["product_id"])
+        cursor.execute(query)
+        for name in cursor:
+            response[i]["product_id"] = name[0]
+
+    return response
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
     # print(insert_order(connection, {
@@ -177,4 +212,8 @@ if __name__ == "__main__":
 
     # print(get_customer_names(connection))
 
-    print(highest_selling_products(connection))
+    # print(highest_selling_products(connection))
+
+    p = pending_orders(connection)
+    for _ in p:
+        print(_)

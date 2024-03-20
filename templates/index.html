@@ -96,11 +96,11 @@
 {% endblock %} {% block username %}
 <h3>{{ username }}</h3>
 {% endblock %} {% block body %}
-<div class="container mt-5">
+<div class="container mt-5" style="width: 92%">
   <div class="row">
     <!-- displaying products count -->
 
-    <div class="col-sm-6" style="width: 293px">
+    <div class="col-sm-6" style="width: 270px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
@@ -118,7 +118,7 @@
 
     <!-- displaying categories count -->
 
-    <div class="col-sm-6" style="width: 293px">
+    <div class="col-sm-6" style="width: 270px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Categories</h5>
@@ -136,7 +136,7 @@
 
     <!-- displaying orders count -->
 
-    <div class="col-sm-6" style="width: 293px">
+    <div class="col-sm-6" style="width: 270px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Total Orders</h5>
@@ -154,7 +154,7 @@
 
     <!-- displaying users count -->
 
-    <div class="col-sm-6" style="width: 293px">
+    <div class="col-sm-6" style="width: 270px">
       <div class="card" style="box-shadow: 0px 0px 1px black">
         <div class="card-body">
           <h5 class="card-title">Users</h5>
@@ -171,7 +171,11 @@
     </div>
   </div>
 </div>
-<div class="container">
+
+
+<!-- displaying important data -->
+
+<div class="container" style="width: 92%;">
   <div class="row">
     <div class="col-lg-6">
       <div class="card mb-4">
@@ -229,6 +233,85 @@
               {% endfor %}
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Products low in stock</strong> </em>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="border: 1px solid black">
+                <th scope="col">Name</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in low_stocks %}
+              <tr style="border: 1px solid black">
+                <td>{{ product.name }}</td>
+                <td>{{ product.unit }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.stock }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="show-orders" style="margin: 10px; float: right">
+            <a href="/getProducts">
+              <button type="button" class="btn btn-outline-secondary add-btn">
+                <span style="font-weight: bold">See Products</span>
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Pending Orders</strong> </em>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr style="border: 1px solid black">
+                <th scope="col">Name</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in pending_orders %}
+              <tr style="border: 1px solid black">
+                <td>{{ order.customer_name}}</td>
+                <td>{{ order.product_id }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.total_price }}</td>
+                <td>{{ order.status }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="show-orders" style="margin: 10px; float: right">
+            <a href="/orders">
+              <button type="button" class="btn btn-outline-secondary add-btn">
+                <span style="font-weight: bold">See Orders</span>
+              </button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
