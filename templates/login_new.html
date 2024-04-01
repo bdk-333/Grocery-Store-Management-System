@@ -10,6 +10,12 @@
       type="image/x-icon"
       href="{{ url_for('static', filename='/images/favicon.jpeg') }}"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       #loader {
         border: 12px solid #f3f3f3;
@@ -58,7 +64,7 @@
         <h1>GROCERY STORE MANAGEMENT SYSTEM</h1>
       </div>
       <div class="login-container">
-        <h1 class="login-title">Member Login</h1>
+        <h1 class="login-title" style="font-family: teko; letter-spacing: 1px;">Member Log-In</h1>
         <form class="form" action="/login" method="post">
           <div class="input-group success">
             <label for="username">Username</label>

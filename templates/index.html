@@ -21,6 +21,24 @@
   .card-animation:hover {
     transform: scale(1.05); /* Scale up on hover */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+    transition-timing-function: ease-in-out;
+  }
+
+  .data-info-1:hover {
+    border-left: 2px solid #f7093b; 
+    border-right: 15px solid #f7093d84;
+  }
+  .data-info-2:hover {
+    border-left: 2px solid #2cd27e; 
+    border-right: 15px solid #2cd27f7b;
+  }
+  .data-info-3:hover {
+    border-left: 2px solid #3ae5e7; 
+    border-right: 15px solid #3ae4e780;
+  }
+  .data-info-4:hover {
+    border-left: 2px solid #fca53e; 
+    border-right: 15px solid #fca63e78;
   }
 </style>
 {% endblock %} {% block nav %}
@@ -122,7 +140,7 @@
   <div class="row">
     <!-- displaying products count -->
     <div class="col-sm-6" style="width: 270px">
-      <div class="card card-animation data-info" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div class="card card-animation data-info-1" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
           <p class="card-text">{{ product_count }}</p>
@@ -140,7 +158,7 @@
     <!-- displaying categories count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div class="card card-animation data-info-2" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Categories</h5>
           <p class="card-text">{{ category_count }}</p>
@@ -158,7 +176,7 @@
     <!-- displaying orders count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div class="card card-animation data-info-3" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Total Sales (Rs)</h5>
           <p class="card-text">{{ total_sales }}</p>
@@ -176,7 +194,7 @@
     <!-- displaying users count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+      <div class="card card-animation data-info-4" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Users</h5>
           <p class="card-text">{{ user_count }}</p>

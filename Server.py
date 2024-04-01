@@ -1,14 +1,13 @@
 import os
-from io import BytesIO
-
+import pdfkit
 import categories_dao
 import orders_dao
 import products_dao
 import uom_dao
 import users_dao
-from flask import Flask, render_template, request, jsonify, session, redirect, make_response, url_for, send_file
+from flask import Flask, render_template, request, jsonify, session, redirect, make_response, url_for
 from sql_connection import connect_to_sql
-from datetime import datetime
+import datetime
 
 app = Flask(__name__)
 __connection = connect_to_sql()
@@ -57,14 +56,18 @@ def landing_page():
     global role
     role = us_role[0]
 
-    if user_exists:
-        session['logged_in'] = True
-        return index()
-        # return render_template('index.html', product_count=product_count, order_count=order_count,
-        #                        user_count=user_count, category_count=category_count, username=username,
-        #                        recent_products=recent_products, highest_selling=highest_selling)
-    else:
-        return render_template("register.html")
+    try:
+        if user_exists:
+            session['logged_in'] = True
+            return index()
+            # return render_template('index.html', product_count=product_count, order_count=order_count,
+            #                        user_count=user_count, category_count=category_count, username=username,
+            #                        recent_products=recent_products, highest_selling=highest_selling)
+        else:
+            return render_template("register.html")
+
+    except Exception as e:
+        return render_template("error.html")
 
 
 @app.route("/logout")
@@ -94,6 +97,9 @@ def index():
     low_stocks = products_dao.low_stock_products(__connection)
     popular_categories = products_dao.category_frequency(__connection)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template("index.html", product_count=product_count, order_count=order_count, user_count=user_count,
                            category_count=category_count, username=username, recent_products=recent_products,
                            highest_selling=highest_selling, pending_orders=pending_orders, low_stocks=low_stocks,
@@ -107,6 +113,10 @@ def get_products():
     product_names = products_dao.get_product_names(__connection)
     categories = categories_dao.get_category_names(__connection)
     current_route = request.path
+
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template('products.html', current_route=current_route, products=sorted_products,
                            categories=categories, product_names=product_names, username=username, role=role)
 
@@ -144,6 +154,9 @@ def insert_product():
 
     product_id = products_dao.insert_new_product(__connection, product)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return get_products()
 
 
@@ -151,6 +164,10 @@ def insert_product():
 def edit_product_page():
     product_names = products_dao.get_product_names(__connection)
     categories = categories_dao.get_category_names(__connection)
+
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template("editproduct.html", product_names=product_names, categories=categories, username=username,
                            role=role)
 
@@ -176,12 +193,19 @@ def edit_product():
 
     products_dao.edit_product(__connection, product)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return get_products()
 
 
 @app.route("/deleteProduct", methods=["POST"])
 def delete_product():
     products_dao.delete_product(__connection, request.form.get("product_id"))
+
+    if not session['logged_in']:
+        return landing_page()
+
     return get_products()
 
 
@@ -200,6 +224,10 @@ def show_orders_page():
     orders = orders_dao.get_orders(__connection)
     sorted_orders = sorted(orders, key=lambda d: d['customer_name'])
     product_names = products_dao.get_product_names(__connection)
+
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template('orders.html', orders=sorted_orders, products=product_names, current_route=current_route,
                            username=username, role=role)
 
@@ -209,8 +237,34 @@ def sales_report():
     sales_data = orders_dao.report_generation(__connection)
     total_sum = sum([d["total_price"] for d in sales_data])
 
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template("sales_report.html", sales_data=sales_data, total_sum=total_sum, username=username,
                            role=role)
+
+
+@app.route("/download_sales_report", methods=["GET"])
+def download_sales_report():
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    # pdfkit.from_url("http://google.com", "out.pdf", configuration=config)
+
+    sales_data = orders_dao.report_generation(__connection)
+    total_sum = sum([d["total_price"] for d in sales_data])
+    render = render_template("download_sales_report.html", sales_data=sales_data, total_sum=total_sum)
+
+    pdf = pdfkit.from_string(render, configuration=config)
+    response = make_response(pdf)
+    now = datetime.datetime.now().strftime("%I:%M %p")
+
+    response.headers['Content-type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'inline;filename=sales_report{now}.pdf'
+
+    if not session['logged_in']:
+        return landing_page()
+
+    return response
 
 
 @app.route('/insertOrder', methods=["GET", "POST"])
@@ -260,6 +314,9 @@ def insert_order():
 
     order_id = orders_dao.insert_order(__connection, new_order)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return show_orders_page()
 
 
@@ -267,6 +324,10 @@ def insert_order():
 def edit_order_page():
     product_names = products_dao.get_product_names(__connection)
     customer_names = orders_dao.get_customer_names(__connection)
+
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template("editorder.html", product_names=product_names, customer_names=customer_names,
                            username=username, role=role)
 
@@ -285,12 +346,19 @@ def editorders():
 
     orders_dao.edit_order(__connection, new_order)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return show_orders_page()
 
 
 @app.route("/deleteOrder", methods=["POST"])
 def delete_order():
     orders_dao.delete_order(__connection, request.form.get("id"))
+
+    if not session['logged_in']:
+        return landing_page()
+
     return show_orders_page()
 
 
@@ -299,6 +367,9 @@ def show_categories():
     categories = categories_dao.get_categories(__connection)
     sorted_category = sorted(categories, key=lambda d: d['category_id'])
     category_names = categories_dao.get_category_names(__connection)
+
+    if not session['logged_in']:
+        return landing_page()
 
     return render_template("categories.html", categories=sorted_category, category_names=category_names,
                            username=username, role=role)
@@ -309,6 +380,9 @@ def insert_category():
     category = request.form.get("name")
 
     category_id = categories_dao.insert_category(__connection, category)
+
+    if not session['logged_in']:
+        return landing_page()
 
     return show_categories()
 
@@ -324,12 +398,20 @@ def edit_category():
     }
 
     categories_dao.edit_category(__connection, category)
+
+    if not session['logged_in']:
+        return landing_page()
+
     return show_categories()
 
 
 @app.route("/deleteCategory", methods=["GET", "POST"])
 def delete_category():
     categories_dao.delete_category(__connection, request.form.get("category_id"))
+
+    if not session['logged_in']:
+        return landing_page()
+
     return show_categories()
 
 
@@ -337,22 +419,28 @@ def delete_category():
 def show_users():
     users = users_dao.get_user(__connection)
 
+    if not session['logged_in']:
+        return landing_page()
+
     return render_template("users.html", users=users, username=username, role=role)
 
 
 @app.route("/insertUser", methods=["GET", "POST"])
 def insert_new_user():
-    username = request.form.get("username")
+    usernam = request.form.get("username")
     user_role = request.form.get("user_role")
     password = request.form.get("password")
 
     new_user = {
         "user_role": user_role,
-        "username": username,
+        "username": usernam,
         "password": password
     }
 
     user_id = users_dao.insert_user(__connection, new_user)
+
+    if not session['logged_in']:
+        return landing_page()
 
     return show_users()
 
@@ -360,11 +448,16 @@ def insert_new_user():
 @app.route("/deleteUser", methods=["GET", "POST"])
 def delete_user():
     users_dao.delete_user(__connection, request.form.get("user_id"))
+
+    if not session['logged_in']:
+        return landing_page()
+
     return show_users()
 
 
 @app.route('/register')
 def register():
+
     return render_template('register.html')
 
 
@@ -388,4 +481,8 @@ def new_register():
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(port=5000, debug=True)
+
+    try:
+        app.run(port=5000, debug=True)
+    except Exception as e:
+        print("Something Wrong!!!")
