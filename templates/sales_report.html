@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% block nav %}
+<li class="nav-item list-group-item">
+  <a class="nav-link" aria-current="page" href="/home">
+    <img
+      src="{{url_for('static', filename='/images/dashboard.png')}}"
+      alt="dashboard"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Dashboard</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getProducts">
+    <img
+      src="{{url_for('static', filename='/images/products.png')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Products</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getCategories">
+    <img
+      src="{{url_for('static', filename='/images/categories.jpg')}}"
+      alt="Products"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Categories</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link active" href="/orders">
+    <img
+      src="{{url_for('static', filename='/images/orders.png')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Orders</p>
+  </a>
+</li>
+<li class="nav-item list-group-item">
+  <a class="nav-link" href="/getUsers">
+    <img
+      src="{{url_for('static', filename='/images/users.jpg')}}"
+      alt="orders"
+      style="
+        height: 30px;
+        width: 30px;
+        border-radius: 100%;
+        padding: 0px;
+        margin-right: 10px;
+      "
+    />
+    <p style="display: inline-block; margin: 2px 0">Users</p>
+  </a>
+</li>
+{% endblock %} {% block username %}
+<h3>{{ username }}</h3>
+{% endblock %}
+
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/orders">Orders</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Sales Report</li>
+  </ol>
+</nav>
+<div
+  class="container mt-5"
+  style="width: 92%; margin: auto; padding-bottom: 150px"
+>
+  <div class="main-container">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 10px; margin-top: -30px">
+        SALES REPORT
+      </h2>
+    </div>
+    <hr />
+
+    <div class="card">
+      <h5 class="card-header">Report of completed orders</h5>
+      <div class="card-body">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Status</th>
+              <th scope="col">Date</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sale in sales_data %}
+            <tr>
+              <td>{{ sale.customer_name }}</td>
+              <td>{{ sale.status }}</td>
+              <td>{{ sale.created_at }}</td>
+              <td>{{ sale.product_id }}</td>
+              <td>{{ sale.quantity }}</td>
+              <td>{{ sale.total_price }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <span style="float: right">
+          <h4>Grand Total: &#x20B9;{{ total_sum }}</h4>
+        </span>
+
+        <a href="#" class="btn btn-outline-info">Download Report</a>
+        <a href="/orders" class="btn btn-outline-secondary" style="margin-left: 25px;">Return</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block js_script %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

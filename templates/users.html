@@ -85,8 +85,17 @@
 <h3>{{ username }}</h3>
 {% endblock %}
 
-{% block body %}
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
 
+{% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Users</li>
+  </ol>
+</nav>
 <div class="main-container">
   <div class="container">
     <h2 style="text-align: center; margin-bottom: 10px; margin-top: -30px">
@@ -137,7 +146,14 @@
                   required
                 />
               </div>
-            <input class="btn btn-primary" type="submit" value="Add User" />
+            <input class="btn btn-primary" type="submit" value="Add User" {%
+              if
+              role!="admin"
+              %}
+              disabled
+              {%
+              endif
+              %} />
           </form>
         </div>
       </div>
@@ -196,6 +212,14 @@
                       type="submit"
                       value="Remove"
                       onclick="return confirm('Are you sure you want to remove this user?')"
+                      {%
+                        if
+                        role!="admin"
+                        %}
+                        disabled
+                        {%
+                        endif
+                        %}
                     />
                   </form>
                 </td>

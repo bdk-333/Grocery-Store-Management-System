@@ -79,13 +79,21 @@
     <p style="display: inline-block; margin: 2px 0">Users</p>
   </a>
 </li>
-{% endblock %}
-
-{% block username %}
+{% endblock %} {% block username %}
 <h3>{{ username }}</h3>
 {% endblock %}
 
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
+
 {% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Orders</li>
+  </ol>
+</nav>
 <div class="container mt-5" style="width: 92%; margin: auto">
   <h2
     class="text-center mb-4"
@@ -105,10 +113,21 @@
     Add Order
   </button>
 
+  <!-- Report Button -->
+  <a href="{{ url_for('sales_report') }}" style="margin-left: 25px">
+    <button
+      type="button"
+      class="btn btn-outline-dark add-btn mb-3"
+      style="font-weight: bold"
+    >
+      View Report
+    </button>
+  </a>
+
   <!-- Table -->
   <div class="table-responsive">
     <table class="table table-bordered table-hover rounded">
-      <thead class="bg-primary text-white">
+      <thead class="thead-light bg-primary text-white">
         <tr>
           <th scope="col">Customer Name</th>
           <th scope="col" style="display: none">Order ID</th>
@@ -116,7 +135,7 @@
           <th scope="col">Quantity</th>
           <th scope="col">Total Price</th>
           <th scope="col">Status</th>
-          <th scope="col" colspan="2" style="text-align: center;">Action</th>
+          <th scope="col" colspan="2" style="text-align: center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -128,15 +147,38 @@
           <td>{{ order.quantity }}</td>
           <td>{{ order.total_price }}</td>
           <td>{{ order.order_status }}</td>
-          <td style="text-align: center;">
+          <td style="text-align: center">
+            {% if role == 'admin' %}
             <a href="editorder.html">
-              <button type="button" class="btn btn-warning" style="width: 80%;">
+              <button type="button" class="btn btn-warning" style="width: 80%">
+                Edit
+              </button>
+            </a>
+            {% else %}
+            <button
+              type="button"
+              class="btn btn-warning"
+              {%
+              if
+              role!="admin"
+              %}
+              disabled
+              {%
+              endif
+              %}
+            >
               Edit
             </button>
-            </a>
+            {% endif %}
+
+            <!-- <a href="editorder.html">
+              <button type="button" class="btn btn-warning" style="width: 80%">
+                Edit
+              </button>
+            </a> -->
           </td>
 
-          <td style="text-align: center;">
+          <td style="text-align: center">
             <form action="/deleteOrder" method="post">
               <input
                 type="text"
@@ -149,6 +191,14 @@
                 type="submit"
                 value="Delete"
                 onclick="return confirm('Are you sure you want to delete this product?')"
+                {%
+                if
+                role!="admin"
+                %}
+                disabled
+                {%
+                endif
+                %}
               />
             </form>
           </td>
@@ -296,7 +346,9 @@
           </div>
 
           <div class="mb-3">
-            <label for="productName" class="form-label">Product Name &nbsp;</label>
+            <label for="productName" class="form-label"
+              >Product Name &nbsp;</label
+            >
             <select name="product_name" id="product_name">
               {% for product in products %}
               <option value="{{ product }}">{{ product }}</option>

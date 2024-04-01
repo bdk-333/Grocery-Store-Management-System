@@ -12,6 +12,17 @@
   href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
+<style>
+  .card-animation {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-animation:hover {
+    transform: scale(1.05); /* Scale up on hover */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a shadow on hover */
+  }
+</style>
 {% endblock %} {% block nav %}
 <li class="nav-item list-group-item">
   <a class="nav-link active" aria-current="page" href="/home">
@@ -95,13 +106,23 @@
 </li>
 {% endblock %} {% block username %}
 <h3>{{ username }}</h3>
-{% endblock %} {% block body %}
+{% endblock %} 
+
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
+
+{% block body %}
+<!-- <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+  </ol>
+</nav> -->
 <div class="container mt-5" style="width: 92%">
   <div class="row">
     <!-- displaying products count -->
-
     <div class="col-sm-6" style="width: 270px">
-      <div class="card" style="box-shadow: 0px 0px 1px black">
+      <div class="card card-animation data-info" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Total Products</h5>
           <p class="card-text">{{ product_count }}</p>
@@ -119,7 +140,7 @@
     <!-- displaying categories count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card" style="box-shadow: 0px 0px 1px black">
+      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Categories</h5>
           <p class="card-text">{{ category_count }}</p>
@@ -137,10 +158,10 @@
     <!-- displaying orders count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card" style="box-shadow: 0px 0px 1px black">
+      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
-          <h5 class="card-title">Total Orders</h5>
-          <p class="card-text">{{ order_count }}</p>
+          <h5 class="card-title">Total Sales (Rs)</h5>
+          <p class="card-text">{{ total_sales }}</p>
         </div>
         <div class="show-orders" style="margin: 10px">
           <a href="/orders">
@@ -155,7 +176,7 @@
     <!-- displaying users count -->
 
     <div class="col-sm-6" style="width: 270px">
-      <div class="card" style="box-shadow: 0px 0px 1px black">
+      <div class="card card-animation" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
           <h5 class="card-title">Users</h5>
           <p class="card-text">{{ user_count }}</p>
@@ -172,19 +193,34 @@
   </div>
 </div>
 
-
 <!-- displaying important data -->
 
-<div class="container" style="width: 92%;">
+<div class="container" style="width: 92%">
+  <!-- Piechart - categories -->
+
+  <div class="mini-container" style="margin-bottom: 50px">
+    <div class="card pie-card card-animation">
+      <div class="card-header">
+        <i class="fas fa-box me-1"></i>
+        <em> <strong>Most popular Categories</strong> </em>
+      </div>
+      <div class="card-body" style="padding-bottom: 25px">
+        <canvas id="pieChart" width="400" height="400"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- displaying product List -->
+
   <div class="row">
     <div class="col-lg-6">
-      <div class="card mb-4">
+      <div class="card mb-4 card-animation">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
           <em> <strong>Highest selling Products</strong> </em>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr style="border: 1px solid black">
                 <th scope="col">Name</th>
@@ -209,13 +245,13 @@
     <!-- Display product List -->
 
     <div class="col-lg-6">
-      <div class="card mb-4">
+      <div class="card mb-4 card-animation">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
           <em> <strong>Recently added Products</strong> </em>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr style="border: 1px solid black">
                 <th scope="col">Name</th>
@@ -238,15 +274,17 @@
     </div>
   </div>
 
+  <!-- displaying order lists -->
+
   <div class="row">
     <div class="col-lg-6">
-      <div class="card mb-4">
+      <div class="card mb-4 card-animation">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
           <em> <strong>Products low in stock</strong> </em>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr style="border: 1px solid black">
                 <th scope="col">Name</th>
@@ -276,14 +314,17 @@
         </div>
       </div>
     </div>
+
+    <!-- displaying pending orders -->
+
     <div class="col-lg-6">
-      <div class="card mb-4">
+      <div class="card mb-4 card-animation">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
           <em> <strong>Pending Orders</strong> </em>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr style="border: 1px solid black">
                 <th scope="col">Name</th>
@@ -317,44 +358,93 @@
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
-  // JavaScript code to initialize and configure the line chart
-  var ctx = document.getElementById("financialChart").getContext("2d");
-  var financialChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
+  // Function to fetch data for the pie chart
+  function fetchDataForPieChart() {
+
+    var categoryData = JSON.parse('{{ popular_categories | tojson | safe }}');
+
+    var data = {
+      // labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+      labels: Object.keys(categoryData),
       datasets: [
         {
-          label: "Sales",
-          data: [50, 60, 70, 65, 80, 75, 90],
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1,
-        },
-        {
-          label: "Expenses",
-          data: [20, 30, 25, 35, 40, 30, 45],
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          borderWidth: 1,
-        },
-        {
-          label: "Profits",
-          data: [30, 30, 45, 30, 40, 45, 45],
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
+          label: "Most Popular Categories",
+          data: Object.values(categoryData), // Sample data, replace with actual data
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(54, 162, 235, 0.6)",
+            "rgba(255, 206, 86, 0.6)",
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(89, 69, 222, 0.6)",
+            "rgba(175, 92, 112, 0.6)"
+          ],
+          borderColor: [
+            "rgba(250, 94, 127, 1)",
+            "rgba(49, 157, 230, 1)",
+            "rgba(250, 201, 81, 1)",
+            "rgba(70, 187, 187, 1)",
+            "rgba(84, 64, 217, 1)",
+            "rgba(170, 87, 107, 1)"
+          ],
           borderWidth: 1,
         },
       ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
+    };
+    return data;
+  }
+
+  <!-- rgba(250, 94, 127, 1) -->
+
+
+  // Function to create and render the pie chart
+  function createPieChart() {
+    var ctx = document.getElementById("pieChart").getContext("2d");
+    var data = fetchDataForPieChart();
+
+    var pieChart = new Chart(ctx, {
+      type: "pie",
+      data: data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+              display: true,
+              text: 'Categories',
+              padding: {
+                  top: 10,
+                  bottom: 20
+              },
+              font: {
+                  size: 18,
+                  weight: 'bold'
+              }
+          },
+          datalabels: {
+            color: "#fff",
+            anchor: "end",
+            align: "start",
+            offset: 10,
+            font: {
+              size: 14,
+              weight: "bold",
+            },
+            formatter: (value, ctx) => {
+              return value + "%"; // Format label as Value%
+            },
+          },
+        },
+        legend: {
+          position: "bottom",
         },
       },
-    },
-  });
+    });
+  }
+
+  // Call the function to create and render the pie chart
+  createPieChart();
 </script>
 {% endblock %}

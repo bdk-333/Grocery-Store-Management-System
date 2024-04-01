@@ -1,7 +1,11 @@
 # dao - Data Access Object
+import io
 from datetime import datetime
-
+from report_generator import generate_sales_report
 from sql_connection import connect_to_sql
+from flask import Flask, render_template, send_file, Response
+from io import BytesIO
+from report_generator import PDFReport
 
 
 def get_orders(cnx):
@@ -180,6 +184,65 @@ def pending_orders(cnx):
     return response
 
 
+def total_sales(cnx):
+    cursor = cnx.cursor()
+    query = "select total_price from orders"
+    cursor.execute(query)
+
+    total = []
+
+    for total_price in cursor:
+        total.append(total_price[0])
+
+    return sum(total)
+
+
+def report_generation(cnx):
+    cursor = cnx.cursor()
+    query = "select orders.customer_name, orders.status, orders.created_at, order_items.product_id, \
+            order_items.quantity, orders.total_price    \
+            from orders inner join order_items on orders.id=order_items.order_id where status='completed'"
+    cursor.execute(query)
+
+    result = []
+
+    for (customer_name, status, created_at, product_id, quantity, total_price) in cursor:
+        result.append(
+            {
+                "customer_name": customer_name,
+                "status": status,
+                "created_at": created_at.strftime("%B %d, %Y %I:%M %p"),
+                "product_id": product_id,
+                "quantity": quantity,
+                "total_price": total_price
+            }
+        )
+
+    for i in range(len(result)):
+        query = "select name from products where product_id=" + str(result[i]["product_id"])
+        cursor.execute(query)
+        for name in cursor:
+            result[i]["product_id"] = name[0]
+
+    return result
+
+    # # Generate the PDF report
+    # pdf_report = generate_sales_report(result)
+    #
+    # # Save the PDF to a BytesIO buffer
+    # pdf_buffer = io.BytesIO()
+    # pdf_report.output(pdf_buffer)
+    # pdf_buffer.seek(0)
+    #
+    # # Serve the PDF as a download attachment
+    # return send_file(
+    #     pdf_buffer,
+    #     as_attachment=True,
+    #     # attachment_filename='sales_report.pdf',
+    #     mimetype='application/pdf'
+    # )
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
     # print(insert_order(connection, {
@@ -214,6 +277,13 @@ if __name__ == "__main__":
 
     # print(highest_selling_products(connection))
 
-    p = pending_orders(connection)
-    for _ in p:
-        print(_)
+    # p = pending_orders(connection)
+    # for _ in p:
+    #     print(_)
+
+    # print(total_sales(connection))
+    sales = report_generation(connection)
+    # print(sum([d["total_price"] for d in sales]))
+
+    for sale in sales:
+        print(sale)

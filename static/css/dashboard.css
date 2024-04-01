@@ -10,3 +10,12 @@
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.data-info {
+    background-image: url('/static/images/back.jpeg');
+    background-size: cover;
+}
+
+/* .data-info image {
+    opacity: 0.5;
+} */

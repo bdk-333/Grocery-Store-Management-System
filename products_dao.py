@@ -141,6 +141,26 @@ def low_stock_products(cnx):
     return low_stocks
 
 
+def category_frequency(cnx):
+    cursor = cnx.cursor()
+    query = "select category from products"
+    cursor.execute(query)
+    categories = []
+
+    for category in cursor:
+        categories.append(category[0])
+
+    frequency_category = {}
+
+    for category in categories:
+        if category in frequency_category:
+            frequency_category[category] += 1
+        else:
+            frequency_category[category] = 1
+
+    return dict((category, frequency) for category, frequency in frequency_category.items() if frequency >= 3)
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
     # last_row_id = insert_new_products(connection, {
@@ -167,4 +187,6 @@ if __name__ == "__main__":
 
     # print(recent_products(connection))
 
-    print(low_stock_products(connection))
+    # print(low_stock_products(connection))
+
+    print(category_frequency(connection))

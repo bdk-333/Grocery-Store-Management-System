@@ -85,7 +85,18 @@
 <h3>{{ username }}</h3>
 {% endblock %}
 
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
+
 {% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/orders">Orders</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Orders</li>
+  </ol>
+</nav>
 <div class="container mt-5" style="width: 92%; margin: auto; padding-bottom: 150px">
   <div class="main-container">
     <div class="container">
@@ -113,6 +124,8 @@
                   >Select Order of &nbsp;</label
                 >
                 <select name="selected_order" id="sp">
+                  <option value="">--Select Customer--</option>
+                  <hr>
                   {% for name in customer_names %}
                   <option value="{{ name }}">{{ name }}</option>
                   {% endfor %}
@@ -136,6 +149,8 @@
               <div class="mb-3">
                 <label for="status" class="form-label">New Status &nbsp;</label>
                 <select name="order_status" id="status">
+                  <option value="">--Select Status--</option>
+                  <hr>
                   <option value="pending">Pending</option>
                   <option value="completed">Completed</option>
                   <option value="in progress">In Progress</option>
@@ -148,12 +163,12 @@
                 value="Edit Product"
                 style="display: inline-block"
               />
-              <div class="mb-3" style="float: right">
-                <a href="/orders">
-                  <button class="btn btn-info">Return</button>
-                </a>
-              </div>
             </form>
+            <div class="mb-3" style="float: right">
+              <a href="/orders">
+                <button class="btn btn-info">Return</button>
+              </a>
+            </div>
           </div>
         </div>
       </div>

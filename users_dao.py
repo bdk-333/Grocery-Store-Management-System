@@ -28,23 +28,28 @@ def count_users(cnx):
 
 def verify_user(cnx, username, password):
     users = get_user(cnx)
+
     usernames_b = [d["username"] for d in users]
     passwords_b = [d["password"] for d in users]
-    true_user = False
-    true_password = False
 
-    for username_b in usernames_b:
-        if username_b == username:
-            true_user = True
+    users_dict = dict(zip(usernames_b, passwords_b))
+    return username in users_dict and users_dict[username] == password
 
-    for password_b in passwords_b:
-        if password_b == password:
-            true_password = True
-
-    if true_user and true_password:
-        return True
-    else:
-        return False
+    # true_user = False
+    # true_password = False
+    #
+    # for username_b in usernames_b:
+    #     if username_b == username:
+    #         true_user = True
+    #
+    # for password_b in passwords_b:
+    #     if password_b == password:
+    #         true_password = True
+    #
+    # if true_user and true_password:
+    #     return True
+    # else:
+    #     return False
 
 
 def insert_user(cnx, user):
@@ -67,8 +72,8 @@ def delete_user(cnx, user_id):
 
 if __name__ == "__main__":
     connection = connect_to_sql()
-    print(get_user(connection))
-    # print(verify_user(connection, "emp"))
+    # print(get_user(connection))
+    # print(verify_user(connection, "kirtan", "abc"))
 
     # print(insert_user(connection, {
     #     "user_role": "employee",

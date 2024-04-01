@@ -85,7 +85,18 @@
 <h3>{{ username }}</h3>
 {% endblock %}
 
+{% block role %}
+<h5>Role: {{ role }}</h5>
+{% endblock %}
+
 {% block body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/home">Home</a></li>
+    <li class="breadcrumb-item"><a href="/getProducts">Products</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit Products</li>
+  </ol>
+</nav>
 
 <div class="main-container">
   <div class="container">
@@ -111,6 +122,8 @@
             <div class="mb-3">
               <label for="product" class="form-label">Select Product &nbsp;</label>
               <select name="selected_product" id="sp">
+                <option value="">--Select Product--</option>
+                <hr>
                 {% for name in product_names %}
                 <option value="{{ name }}">{{ name }}</option>
                 {% endfor %}
@@ -160,6 +173,8 @@
             <div class="mb-3">
               <label for="productCategory" class="form-label">Category &nbsp;</label>
               <select name="category" id="category">
+                <option value="">--Select Category--</option>
+                <hr>
                 {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>
                 {% endfor %}
@@ -171,12 +186,12 @@
               value="Edit Product"
               style="display: inline-block"
             />
-            <div class="mb-3" style="float: right">
-              <a href="/getProducts">
-                <button class="btn btn-info">Return</button>
-              </a>
-            </div>
           </form>
+          <div class="mb-3" style="float: right">
+            <a href="/getProducts">
+              <button class="btn btn-info">Return</button>
+            </a>
+          </div>
         </div>
       </div>
     </div>

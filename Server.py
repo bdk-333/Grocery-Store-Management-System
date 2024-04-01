@@ -1,15 +1,19 @@
 import os
+from io import BytesIO
 
 import categories_dao
 import orders_dao
 import products_dao
 import uom_dao
 import users_dao
-from flask import Flask, render_template, request, jsonify, session, redirect
+from flask import Flask, render_template, request, jsonify, session, redirect, make_response, url_for, send_file
 from sql_connection import connect_to_sql
 from datetime import datetime
 
 app = Flask(__name__)
+__connection = connect_to_sql()
+username = ""
+role = ""
 
 
 @app.after_request
@@ -18,15 +22,11 @@ def add_header(response):
     return response
 
 
-__connection = connect_to_sql()
-username = ""
-
-
 @app.route("/")
 def login():
     current_route = request.path
     if not session.get('logged_in'):
-        return render_template("login.html")
+        return render_template("login_new.html")
     else:
         return index()
 
@@ -43,9 +43,19 @@ def landing_page():
 
     # recent_products = products_dao.recent_products(__connection)
     # highest_selling = orders_dao.highest_selling_products(__connection)
+    cursor = __connection.cursor()
+    query = "select user_role from users where username=%s"
+    cursor.execute(query, (user,))
+
+    us_role = []
+    for user_role in cursor:
+        us_role.append(user_role[0])
 
     global username
     username = user
+
+    global role
+    role = us_role[0]
 
     if user_exists:
         session['logged_in'] = True
@@ -60,22 +70,34 @@ def landing_page():
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
-    return login()
+
+    response = make_response(redirect(url_for('login')))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
+
+    # return login()
 
 
 @app.route("/home")
 def index():
     product_count = products_dao.count_products(__connection)
     order_count = orders_dao.count_orders(__connection)
+    total_sales = orders_dao.total_sales(__connection)
     user_count = users_dao.count_users(__connection)
     category_count = categories_dao.count_categories(__connection)
+
     recent_products = products_dao.recent_products(__connection)
     highest_selling = orders_dao.highest_selling_products(__connection)
     pending_orders = orders_dao.pending_orders(__connection)
     low_stocks = products_dao.low_stock_products(__connection)
+    popular_categories = products_dao.category_frequency(__connection)
+
     return render_template("index.html", product_count=product_count, order_count=order_count, user_count=user_count,
                            category_count=category_count, username=username, recent_products=recent_products,
-                           highest_selling=highest_selling, pending_orders=pending_orders, low_stocks=low_stocks)
+                           highest_selling=highest_selling, pending_orders=pending_orders, low_stocks=low_stocks,
+                           popular_categories=popular_categories, total_sales=total_sales, role=role)
 
 
 @app.route("/getProducts")
@@ -86,7 +108,7 @@ def get_products():
     categories = categories_dao.get_category_names(__connection)
     current_route = request.path
     return render_template('products.html', current_route=current_route, products=sorted_products,
-                           categories=categories, product_names=product_names, username=username)
+                           categories=categories, product_names=product_names, username=username, role=role)
 
     # return render_template("products.html",)
     # response = jsonify(products)
@@ -129,7 +151,8 @@ def insert_product():
 def edit_product_page():
     product_names = products_dao.get_product_names(__connection)
     categories = categories_dao.get_category_names(__connection)
-    return render_template("editproduct.html", product_names=product_names, categories=categories, username=username)
+    return render_template("editproduct.html", product_names=product_names, categories=categories, username=username,
+                           role=role)
 
 
 @app.route("/editProduct", methods=["GET", "POST"])
@@ -178,7 +201,16 @@ def show_orders_page():
     sorted_orders = sorted(orders, key=lambda d: d['customer_name'])
     product_names = products_dao.get_product_names(__connection)
     return render_template('orders.html', orders=sorted_orders, products=product_names, current_route=current_route,
-                           username=username)
+                           username=username, role=role)
+
+
+@app.route("/sales_report", methods=["GET"])
+def sales_report():
+    sales_data = orders_dao.report_generation(__connection)
+    total_sum = sum([d["total_price"] for d in sales_data])
+
+    return render_template("sales_report.html", sales_data=sales_data, total_sum=total_sum, username=username,
+                           role=role)
 
 
 @app.route('/insertOrder', methods=["GET", "POST"])
@@ -236,7 +268,7 @@ def edit_order_page():
     product_names = products_dao.get_product_names(__connection)
     customer_names = orders_dao.get_customer_names(__connection)
     return render_template("editorder.html", product_names=product_names, customer_names=customer_names,
-                           username=username)
+                           username=username, role=role)
 
 
 @app.route("/editOrder", methods=["GET", "POST"])
@@ -269,7 +301,7 @@ def show_categories():
     category_names = categories_dao.get_category_names(__connection)
 
     return render_template("categories.html", categories=sorted_category, category_names=category_names,
-                           username=username)
+                           username=username, role=role)
 
 
 @app.route("/insertCategory", methods=["GET", "POST"])
@@ -305,7 +337,7 @@ def delete_category():
 def show_users():
     users = users_dao.get_user(__connection)
 
-    return render_template("users.html", users=users, username=username)
+    return render_template("users.html", users=users, username=username, role=role)
 
 
 @app.route("/insertUser", methods=["GET", "POST"])
