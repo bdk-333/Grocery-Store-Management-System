@@ -94,6 +94,13 @@
     <li class="breadcrumb-item active" aria-current="page">Orders</li>
   </ol>
 </nav>
+
+<div class="quantity-error" style="display: none;">
+  <div class="alert alert-danger" role="alert">
+    Given quantity is greater than product stock!!!
+  </div>
+</div>
+
 <div class="container mt-5" style="width: 92%; margin: auto">
   <h2
     class="text-center mb-4"
@@ -320,7 +327,7 @@
   aria-labelledby="addOrderModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-top">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addOrderModalLabel">Add Order</h5>
@@ -333,7 +340,7 @@
       </div>
       <div class="modal-body">
         <!-- Form to Add Order -->
-        <form action="/insertOrder" method="post" id="order-form">
+        <form action="/insertOrder" method="post" id="order-form" onsubmit="return validateQuantity()">
           <div class="mb-3">
             <label for="customerName" class="form-label">Customer Name</label>
             <input
@@ -347,40 +354,59 @@
 
           <div class="mb-3">
             <label for="productName" class="form-label"
-              >Product Name &nbsp;</label
+            >Product Name &nbsp;</label
             >
             <select name="product_name" id="product_name">
-              {% for product in products %}
+              {% for product, stock in product_name_stock.items() %}
               <option value="{{ product }}">{{ product }}</option>
               {% endfor %}
             </select>
           </div>
-
+          
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity</label>
             <input
-              type="number"
-              class="form-control"
-              id="quantity"
-              name="quantity"
-              placeholder="Enter quantity"
+            type="number"
+            class="form-control"
+            id="quantity"
+            name="quantity"
+            placeholder="Enter quantity"
+            min="1"
             />
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-outline-success">Save</button>
             <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
             >
-              Close
-            </button>
-          </div>
+            Close
+          </button>
+        </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function validateQuantity() {
+      var productName = document.getElementById("product_name").value;
+      var selectedOption = document.querySelector(`#product_name option[value="${productName}"]`);
+      var productStock = parseInt(selectedOption.getAttribute("data-stock"));
+      var quantityInput = document.getElementById("quantity");
+      var selectedQuantity = parseInt(quantityInput.value);
+  
+      if (selectedQuantity > productStock) {
+          alert("Quantity exceeds available stock. Please enter a valid quantity.");
+          return false; // Prevent form submission
+      }
+  
+      return true; // Proceed with form submission
+  }
+  </script>
+
 {% endblock %} {% block js_script %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

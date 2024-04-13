@@ -81,13 +81,9 @@
 </li>
 {% endblock %} {% block username %}
 <h3>{{ username }}</h3>
-{% endblock %} 
-
-{% block role %}
+{% endblock %} {% block role %}
 <h5>Role: {{ role }}</h5>
-{% endblock %}
-
-{% block body %}
+{% endblock %} {% block body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -102,6 +98,31 @@
     </h2>
   </div>
   <hr />
+
+  <!-- Search bar -->
+  <div class="row">
+    <div class="col-lg-6" style="width: 33%">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search Product"
+          aria-label="Search Product"
+          aria-describedby="searchButton"
+          id="searchInput"
+        />
+        <button
+          class="btn btn-outline-primary"
+          type="button"
+          id="searchButton"
+          data-bs-toggle="modal"
+          data-bs-target="#productDetailsModal"
+        >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Add product button -->
 
@@ -198,7 +219,7 @@
           <em> <strong>Product List</strong> </em>
         </div>
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered table-hover">
             <thead>
               <tr style="border: 1px solid black">
                 <th scope="col">Name</th>
@@ -259,8 +280,6 @@
                       class="btn btn-danger"
                       type="submit"
                       value="Delete"
-                      data-bs-toggle="modal"
-                      data-bs-target="#confirmDeleteModal"
                       onclick="return confirm('Are you sure you want to delete this product?')"
                       {%
                       if
@@ -290,20 +309,18 @@
       </div>
     </div>
 
-    <!-- Confirm Delete Modal -->
+    <!-- Product Details Modal -->
     <div
       class="modal fade"
-      id="confirmDeleteModal"
+      id="productDetailsModal"
       tabindex="-1"
-      aria-labelledby="confirmDeleteModalLabel"
+      aria-labelledby="productDetailsModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="confirmDeleteModalLabel">
-              Confirm Delete
-            </h5>
+          <div class="modal-header" id="modal-header">
+            <h5 class="modal-title" id="modal-title">Product Details</h5>
             <button
               type="button"
               class="btn-close"
@@ -311,8 +328,8 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            Are you sure you want to delete this product?
+          <div class="modal-body" id="modal-body">
+            <!-- Product details content will be displayed here -->
           </div>
           <div class="modal-footer">
             <button
@@ -320,17 +337,130 @@
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-outline-danger">
-              Confirm Delete
+              Close
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Confirm Delete Modal -->
+  <div
+    class="modal fade"
+    id="confirmDeleteModal"
+    tabindex="-1"
+    aria-labelledby="confirmDeleteModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">
+            Confirm Delete
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete this product?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-outline-danger">
+            Confirm Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  // JavaScript to handle search and modal display
+  document
+    .getElementById("searchButton")
+    .addEventListener("click", function () {
+      // Fetch search input value
+      const searchInput = document.getElementById("searchInput").value;
+
+      const productsData = JSON.parse("{{ products | tojson | safe }}");
+
+      // Function to search for a product by name
+      function searchProductByName(products, productName) {
+        for (let i = 0; i < products.length; i++) {
+          if (
+            products[i].name.toLowerCase().includes(productName.toLowerCase())
+          ) {
+            return products[i]; // Return the product if found
+          }
+        }
+        return null; // Return null if product not found
+      }
+
+      // Function to display product details in modal
+      function displayProductDetails(product) {
+        // Get modal elements
+        const modalTitle = document.getElementById("modal-title");
+        const modalBody = document.getElementById("modal-body");
+
+        // Set modal content
+        modalTitle.innerText = product.name;
+        modalBody.innerHTML = `
+    <p><strong>Price per Unit:</strong> $${product.price_per_unit.toFixed(
+      2
+    )}</p>
+    <p><strong>Stock:</strong> ${product.stock} ${product.uom_name}</p>
+    <p><strong>Category:</strong> ${product.category}</p>
+  `;
+
+        $("#productDetailsModal").modal("show");
+      }
+
+      const foundProduct = searchProductByName(productsData, searchInput);
+      if (foundProduct) {
+        displayProductDetails(foundProduct);
+      } else {
+        console.log("Product not found!");
+      }
+
+      /*
+      // Send AJAX request to Flask route
+      fetch("/get_product_details", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `search_input=${searchInput}`,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Update modal content with fetched product details
+          document.querySelector(".modal-body").innerHTML = `
+          <h5>Name: ${data.name}</h5>
+          <p>Description: ${data.description}</p>
+          <p>Price: ${data.price}</p>
+          <p>Stock: ${data.stock}</p>
+        `;
+
+          // Display the product details modal
+          $("#productDetailsModal").modal("show");
+        })
+        .catch((error) => console.error("Error:", error));
+
+        */
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>

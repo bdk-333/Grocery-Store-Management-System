@@ -42,6 +42,18 @@ def get_product_names(cnx):
     return names
 
 
+def get_product_stock(cnx):
+    cursor = cnx.cursor()
+    query = "select stock from products"
+    cursor.execute(query)
+
+    stocks = []
+    for name in cursor:
+        stocks.append(name[0])
+
+    return stocks
+
+
 def get_categories(cnx):
     categories = categories_dao.get_categories(cnx)
     return categories
@@ -172,7 +184,11 @@ if __name__ == "__main__":
     # print(last_row_id)
 
     # print(count_products(connection))
-    # print(get_product_names(connection))
+    print(get_product_names(connection))
+    print(get_product_stock(connection))
+
+    print(dict(zip(get_product_names(connection), get_product_stock(connection))))
+
     # print(get_categories(connection))
 
     # edit_product(connection, {
@@ -183,10 +199,10 @@ if __name__ == "__main__":
     #     "category": "Vegetables"
     # })
 
-    # print(get_all_products(connection))
+    print(get_all_products(connection))
 
     # print(recent_products(connection))
 
     # print(low_stock_products(connection))
 
-    print(category_frequency(connection))
+    # print(category_frequency(connection))
