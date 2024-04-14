@@ -81,13 +81,9 @@
 </li>
 {% endblock %} {% block username %}
 <h3>{{ username }}</h3>
-{% endblock %}
-
-{% block role %}
+{% endblock %} {% block role %}
 <h5>Role: {{ role }}</h5>
-{% endblock %}
-
-{% block body %}
+{% endblock %} {% block body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/home">Home</a></li>
@@ -95,7 +91,7 @@
   </ol>
 </nav>
 
-<div class="quantity-error" style="display: none;">
+<div class="quantity-error" style="display: none">
   <div class="alert alert-danger" role="alert">
     Given quantity is greater than product stock!!!
   </div>
@@ -132,190 +128,102 @@
   </a>
 
   <!-- Table -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover rounded">
-      <thead class="thead-light bg-primary text-white">
-        <tr>
-          <th scope="col">Customer Name</th>
-          <th scope="col" style="display: none">Order ID</th>
-          <th scope="col">Product Name</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Total Price</th>
-          <th scope="col">Status</th>
-          <th scope="col" colspan="2" style="text-align: center">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for order in orders %}
-        <tr>
-          <td>{{ order.customer_name }}</td>
-          <td style="display: none">{{ order.id }}</td>
-          <td>{{ order.product_id }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.total_price }}</td>
-          <td>{{ order.order_status }}</td>
-          <td style="text-align: center">
-            {% if role == 'admin' %}
-            <a href="editorder.html">
-              <button type="button" class="btn btn-warning" style="width: 80%">
-                Edit
-              </button>
-            </a>
-            {% else %}
-            <button
-              type="button"
-              class="btn btn-warning"
-              {%
-              if
-              role!="admin"
-              %}
-              disabled
-              {%
-              endif
-              %}
-            >
-              Edit
-            </button>
-            {% endif %}
-
-            <!-- <a href="editorder.html">
-              <button type="button" class="btn btn-warning" style="width: 80%">
-                Edit
-              </button>
-            </a> -->
-          </td>
-
-          <td style="text-align: center">
-            <form action="/deleteOrder" method="post">
-              <input
-                type="text"
-                name="id"
-                value="{{ order.id }}"
-                style="display: none"
-              />
-              <input
-                class="btn btn-danger"
-                type="submit"
-                value="Delete"
-                onclick="return confirm('Are you sure you want to delete this product?')"
-                {%
-                if
-                role!="admin"
-                %}
-                disabled
-                {%
-                endif
-                %}
-              />
-            </form>
-          </td>
-        </tr>
-
-        <!-- edit order Modal -->
-
-        <div
-          class="modal fade"
-          id="editOrderModal"
-          tabindex="-1"
-          aria-labelledby="editProductModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
+  <div class="col-lg-6" style="width: 100%">
+    <div class="card mb-4">
+      <div class="card-header">
+        <i class="fas fa-box me-1"></i>
+        <em> <strong>Orders List</strong> </em>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered table-hover rounded">
+          <thead class="thead-light bg-primary text-white">
+            <tr>
+              <th scope="col">Customer Name</th>
+              <th scope="col" style="display: none">Order ID</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+              <th scope="col">Status</th>
+              <th scope="col" colspan="2" style="text-align: center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <td>{{ order.customer_name }}</td>
+              <td style="display: none">{{ order.id }}</td>
+              <td>{{ order.product_id }}</td>
+              <td>{{ order.quantity }}</td>
+              <td>{{ order.total_price }}</td>
+              <td>{{ order.order_status }}</td>
+              <td style="text-align: center">
+                {% if role == 'admin' %}
                 <button
                   type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <!-- Form to edit Order -->
-                <form action="/editOrder" method="post" id="edit-order-form">
-                  <div class="mb-3">
-                    <label for="customerName" class="form-label"
-                      >Edit Customer Name</label
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="customerName"
-                      name="customer_name"
-                      value=""
-                      placeholder="Enter customer name"
-                    />
-                  </div>
+                  class="btn btn-warning"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editOrderModal"
+                  style="width: 80%"
+                >
+                  Edit
+                </button>
+                {% else %}
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editOrderModal"
+                  {%
+                  if
+                  role!="admin"
+                  %}
+                  disabled
+                  {%
+                  endif
+                  %}
+                >
+                  Edit
+                </button>
+                {% endif %}
 
-                  <div class="mb-3">
-                    <input
-                      type="text"
-                      name="id"
-                      value="{{ order.id }}"
-                      style="display: none"
-                    />
-                  </div>
+                <!-- <a href="editorder.html">
+                  <button type="button" class="btn btn-warning" style="width: 80%">
+                    Edit
+                  </button>
+                </a> -->
+              </td>
 
-                  <div class="mb-3">
-                    <label for="productName" class="form-label"
-                      >Change Product</label
-                    >
-                    <select name="product_name" id="product_name">
-                      {% for product in products %}
-                      <option value="{{ product }}">{{ product }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="quantity" class="form-label"
-                      >New Quantity</label
-                    >
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="quantity"
-                      name="quantity"
-                      placeholder="Enter new quantity"
-                    />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="status" class="form-label">New Status</label>
-                    <select name="order_status" id="status">
-                      <option value="pending">Pending</option>
-                      <option value="completed">Completed</option>
-                      <option value="in progress">In Progress</option>
-                    </select>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button
-                      type="submit"
-                      class="btn btn-outline-success"
-                      onclick="return confirm('Are you sure you want to edit this product?')"
-                    >
-                      Save
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                  </div>
+              <td style="text-align: center">
+                <form action="/deleteOrder" method="post">
+                  <input
+                    type="text"
+                    name="id"
+                    value="{{ order.id }}"
+                    style="display: none"
+                  />
+                  <input
+                    class="btn btn-danger"
+                    type="submit"
+                    value="Delete"
+                    onclick="return confirm('Are you sure you want to delete this product?')"
+                    {%
+                    if
+                    role!="admin"
+                    %}
+                    disabled
+                    {%
+                    endif
+                    %}
+                  />
                 </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {% endfor %}
-        <!-- Add more rows for additional orders -->
-      </tbody>
-    </table>
+              </td>
+            </tr>
+            {% endfor %}
+            <!-- Add more rows for additional orders -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -340,7 +248,12 @@
       </div>
       <div class="modal-body">
         <!-- Form to Add Order -->
-        <form action="/insertOrder" method="post" id="order-form" onsubmit="return validateQuantity()">
+        <form
+          action="/insertOrder"
+          method="post"
+          id="order-form"
+          onsubmit="return validateQuantity()"
+        >
           <div class="mb-3">
             <label for="customerName" class="form-label">Customer Name</label>
             <input
@@ -354,7 +267,7 @@
 
           <div class="mb-3">
             <label for="productName" class="form-label"
-            >Product Name &nbsp;</label
+              >Product Name &nbsp;</label
             >
             <select name="product_name" id="product_name">
               {% for product, stock in product_name_stock.items() %}
@@ -362,28 +275,102 @@
               {% endfor %}
             </select>
           </div>
-          
+
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity</label>
             <input
-            type="number"
-            class="form-control"
-            id="quantity"
-            name="quantity"
-            placeholder="Enter quantity"
-            min="1"
+              type="number"
+              class="form-control"
+              id="quantity"
+              name="quantity"
+              placeholder="Enter quantity"
+              min="1"
             />
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-outline-success">Save</button>
             <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
             >
-            Close
-          </button>
-        </div>
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Order Modal -->
+<div
+  class="modal fade"
+  id="editOrderModal"
+  tabindex="-1"
+  aria-labelledby="editOrderModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form to Add Order -->
+        <form id="productForm" action="/editOrder" method="post">
+          <!-- <input type="hidden" name="id" id="id" value="0"> -->
+
+          <div class="mb-3">
+            <label for="product" class="form-label"
+              >Select Order of &nbsp;</label
+            >
+            <select name="selected_order" id="sp">
+              <option value="">--Select Customer--</option>
+              <hr />
+              {% for name in customer_names %}
+              <option value="{{ name }}">{{ name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="customerName" class="form-label"
+              >Edit Customer Name</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="customerName"
+              name="customer_name"
+              value=""
+              placeholder="Enter customer name"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">New Status &nbsp;</label>
+            <select name="order_status" id="status">
+              <option value="">--Select Status--</option>
+              <hr />
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="in progress">In Progress</option>
+            </select>
+          </div>
+
+          <input
+            class="btn btn-primary"
+            type="submit"
+            value="Edit Product"
+            style="display: inline-block"
+          />
         </form>
       </div>
     </div>
@@ -392,20 +379,22 @@
 
 <script>
   function validateQuantity() {
-      var productName = document.getElementById("product_name").value;
-      var selectedOption = document.querySelector(`#product_name option[value="${productName}"]`);
-      var productStock = parseInt(selectedOption.getAttribute("data-stock"));
-      var quantityInput = document.getElementById("quantity");
-      var selectedQuantity = parseInt(quantityInput.value);
-  
-      if (selectedQuantity > productStock) {
-          alert("Quantity exceeds available stock. Please enter a valid quantity.");
-          return false; // Prevent form submission
-      }
-  
-      return true; // Proceed with form submission
+    var productName = document.getElementById("product_name").value;
+    var selectedOption = document.querySelector(
+      `#product_name option[value="${productName}"]`
+    );
+    var productStock = parseInt(selectedOption.getAttribute("data-stock"));
+    var quantityInput = document.getElementById("quantity");
+    var selectedQuantity = parseInt(quantityInput.value);
+
+    if (selectedQuantity > productStock) {
+      alert("Quantity exceeds available stock. Please enter a valid quantity.");
+      return false; // Prevent form submission
+    }
+
+    return true; // Proceed with form submission
   }
-  </script>
+</script>
 
 {% endblock %} {% block js_script %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

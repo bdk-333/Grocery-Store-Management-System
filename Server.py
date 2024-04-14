@@ -213,6 +213,14 @@ def edit_product():
     return get_products()
 
 
+@app.route("/search_products", methods=["GET", "POST"])
+def search_products():
+    product = request.form.get("product_name")
+    details = products_dao.search_products(__connection, product)
+
+    return jsonify(details)
+
+
 @app.route("/deleteProduct", methods=["POST"])
 def delete_product():
     products_dao.delete_product(__connection, request.form.get("product_id"))
@@ -235,13 +243,14 @@ def show_orders_page():
     orders = orders_dao.get_orders(__connection)
     sorted_orders = sorted(orders, key=lambda d: d['customer_name'])
     product_names = products_dao.get_product_names(__connection)
+    customer_names = orders_dao.get_customer_names(__connection)
     product_stock = products_dao.get_product_stock(__connection)
 
     product_name_stock = dict(zip(product_names, product_stock))
 
     return render_template('orders.html', orders=sorted_orders, current_route=current_route, username=username,
                            role=role, product_name_stock=product_name_stock, product_names=product_names,
-                           product_stock=product_stock)
+                           product_stock=product_stock, customer_names=customer_names)
 
 
 @app.route("/sales_report", methods=["GET"])

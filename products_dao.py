@@ -173,6 +173,28 @@ def category_frequency(cnx):
     return dict((category, frequency) for category, frequency in frequency_category.items() if frequency >= 3)
 
 
+def search_products(cnx, product):
+    cursor = cnx.cursor()
+    query = "select products.name, products.price_per_unit, products.stock, products.category, uom.uom_name " \
+            "from products inner join uom on products.uom_id=uom.uom_id where lower(name) like lower('%s');"
+    cursor.execute(query, ('%' + product[:5] + '%',))
+
+    details = []
+
+    for (name, price_per_unit, stock, category, uom_name) in cursor:
+        details.append(
+            {
+                "product_name": name,
+                "price_per_unit": price_per_unit,
+                "stock": stock,
+                "category": category,
+                "unit": uom_name
+            }
+        )
+
+    return details
+
+
 if __name__ == "__main__":
     connection = connect_to_sql()
     # last_row_id = insert_new_products(connection, {

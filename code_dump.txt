@@ -132,3 +132,183 @@
                     </div>
                   </form>
                 </td>
+
+
+
+
+Add Product table 
+
+<div class="col-lg-6" style="width: 33%">
+      <div class="card mb-4">
+        <div class="card-header">
+          <i class="fas fa-box me-1"></i>
+          <em> <strong>Add New Product</strong> </em>
+        </div>
+        <div class="card-body">
+          <form id="productForm" action="/insertProduct" method="post">
+            <!-- <input type="hidden" name="id" id="id" value="0"> -->
+            <div class="mb-3">
+              <label for="productName" class="form-label">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Enter product name"
+                name="name"
+                value=""
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="uom">Choose a unit:</label>
+              <select class="form-select" name="uom" id="uom" required>
+                <option selected value="">
+                  Select appropriate Unit for product
+                </option>
+                <hr style="margin-top: 5px; margin-bottom: 5px" />
+                <option value="1">Each</option>
+                <option value="2">Kg</option>
+                <option value="3">Litre</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="productPrice" class="form-label"
+                >Product Price per Unit</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                placeholder="Enter product price"
+                name="price"
+                value=""
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="productStock" class="form-label"
+                >Stock (No. of Units)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="stock"
+                placeholder="Enter no. of units"
+                name="stock"
+                value=""
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="productCategory" class="form-label"
+                >Category&nbsp;</label
+              >
+              <select name="category" id="category">
+                <option>--Select--</option>
+                <hr />
+                {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Add Product" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+    Order table 
+
+        <table class="table table-bordered table-hover rounded">
+      <thead class="thead-light bg-primary text-white">
+        <tr>
+          <th scope="col">Customer Name</th>
+          <th scope="col" style="display: none">Order ID</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Status</th>
+          <th scope="col" colspan="2" style="text-align: center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.customer_name }}</td>
+          <td style="display: none">{{ order.id }}</td>
+          <td>{{ order.product_id }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.total_price }}</td>
+          <td>{{ order.order_status }}</td>
+          <td style="text-align: center">
+            {% if role == 'admin' %}
+            <button
+              type="button"
+              class="btn btn-warning"
+              data-bs-toggle="modal"
+              data-bs-target="#editOrderModal"
+              style="width: 80%"
+            >
+              Edit
+            </button>
+            {% else %}
+            <button
+              type="button"
+              class="btn btn-warning"
+              data-bs-toggle="modal"
+              data-bs-target="#editOrderModal"
+              {%
+              if
+              role!="admin"
+              %}
+              disabled
+              {%
+              endif
+              %}
+            >
+              Edit
+            </button>
+            {% endif %}
+
+            <!-- <a href="editorder.html">
+              <button type="button" class="btn btn-warning" style="width: 80%">
+                Edit
+              </button>
+            </a> -->
+          </td>
+
+          <td style="text-align: center">
+            <form action="/deleteOrder" method="post">
+              <input
+                type="text"
+                name="id"
+                value="{{ order.id }}"
+                style="display: none"
+              />
+              <input
+                class="btn btn-danger"
+                type="submit"
+                value="Delete"
+                onclick="return confirm('Are you sure you want to delete this product?')"
+                {%
+                if
+                role!="admin"
+                %}
+                disabled
+                {%
+                endif
+                %}
+              />
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        <!-- Add more rows for additional orders -->
+      </tbody>
+    </table>

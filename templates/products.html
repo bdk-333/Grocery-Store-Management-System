@@ -101,118 +101,50 @@
 
   <!-- Search bar -->
   <div class="row">
-    <div class="col-lg-6" style="width: 33%">
+    <!-- Add product button -->
+    <button
+      type="button"
+      class="btn btn-outline-dark add-btn mb-3"
+      data-bs-toggle="modal"
+      data-bs-target="#addProductModal"
+      style="font-weight: bold; width: 13%; margin-left: 0.75rem;"
+    >
+      Add Product
+    </button>
+
+    <!-- <div class="col-lg-6" style="width: 33%; display:inline-block">
       <div class="input-group mb-3">
-        <input
+        <form id="searchForm" action="/search_products" method="post" style="display: inline-block;">
+          <input
           type="text"
           class="form-control"
+          name="product_name"
           placeholder="Search Product"
           aria-label="Search Product"
           aria-describedby="searchButton"
           id="searchInput"
+          style="display: inline-block;"
         />
         <button
           class="btn btn-outline-primary"
-          type="button"
+          type="submit"
           id="searchButton"
           data-bs-toggle="modal"
           data-bs-target="#productDetailsModal"
+          style="float: right;"
         >
           Search
         </button>
+        </form>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <!-- Add product button -->
 
   <div class="row">
-    <div class="col-lg-6" style="width: 33%">
-      <div class="card mb-4">
-        <div class="card-header">
-          <i class="fas fa-box me-1"></i>
-          <em> <strong>Add New Product</strong> </em>
-        </div>
-        <div class="card-body">
-          <form id="productForm" action="/insertProduct" method="post">
-            <!-- <input type="hidden" name="id" id="id" value="0"> -->
-            <div class="mb-3">
-              <label for="productName" class="form-label">Product Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Enter product name"
-                name="name"
-                value=""
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="uom">Choose a unit:</label>
-              <select class="form-select" name="uom" id="uom" required>
-                <option selected value="">
-                  Select appropriate Unit for product
-                </option>
-                <hr style="margin-top: 5px; margin-bottom: 5px" />
-                <option value="1">Each</option>
-                <option value="2">Kg</option>
-                <option value="3">Litre</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label for="productPrice" class="form-label"
-                >Product Price per Unit</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="price"
-                placeholder="Enter product price"
-                name="price"
-                value=""
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="productStock" class="form-label"
-                >Stock (No. of Units)</label
-              >
-              <input
-                type="number"
-                class="form-control"
-                id="stock"
-                placeholder="Enter no. of units"
-                name="stock"
-                value=""
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="productCategory" class="form-label"
-                >Category&nbsp;</label
-              >
-              <select name="category" id="category">
-                <option>--Select--</option>
-                <hr />
-                {% for category in categories %}
-                <option value="{{ category }}">{{ category }}</option>
-                {% endfor %}
-              </select>
-            </div>
-            <input class="btn btn-primary" type="submit" value="Add Product" />
-          </form>
-        </div>
-      </div>
-    </div>
-
     <!-- Display product List -->
 
-    <div class="col-lg-6" style="width: 67%">
+    <div class="col-lg-6" style="width: 100%">
       <div class="card mb-4">
         <div class="card-header">
           <i class="fas fa-box me-1"></i>
@@ -244,13 +176,22 @@
                 <td>{{ product.category }}</td>
                 <td>
                   {% if role == 'admin' %}
-                  <a href="editproduct.html">
-                    <button type="button" class="btn btn-warning">Edit</button>
-                  </a>
+
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
+                  >
+                    Edit
+                  </button>
+
                   {% else %}
                   <button
                     type="button"
                     class="btn btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editProductModal"
                     {%
                     if
                     role!="admin"
@@ -386,6 +327,280 @@
   </div>
 </div>
 
+<!-- Add Product Modal -->
+<div
+  class="modal fade"
+  id="addProductModal"
+  tabindex="-1"
+  aria-labelledby="addProductModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form to Add Product -->
+        <form id="productForm" action="/insertProduct" method="post">
+          <!-- <input type="hidden" name="id" id="id" value="0"> -->
+          <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Enter product name"
+              name="name"
+              value=""
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="uom">Choose a unit:</label>
+            <select class="form-select" name="uom" id="uom" required>
+              <option selected value="">
+                Select appropriate Unit for product
+              </option>
+              <hr style="margin-top: 5px; margin-bottom: 5px" />
+              <option value="1">Each</option>
+              <option value="2">Kg</option>
+              <option value="3">Litre</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="productPrice" class="form-label"
+              >Product Price per Unit</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="price"
+              placeholder="Enter product price"
+              name="price"
+              value=""
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="productStock" class="form-label"
+              >Stock (No. of Units)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="stock"
+              placeholder="Enter no. of units"
+              name="stock"
+              value=""
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="productCategory" class="form-label"
+              >Category&nbsp;</label
+            >
+            <select name="category" id="category">
+              <option>--Select--</option>
+              <hr />
+              {% for category in categories %}
+              <option value="{{ category }}">{{ category }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <input class="btn btn-primary" type="submit" value="Add Product" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Product Modal -->
+<div
+  class="modal fade"
+  id="editProductModal"
+  tabindex="-1"
+  aria-labelledby="editProductModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-top">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form to Add Order -->
+        <form id="productForm" action="/editProduct" method="post">
+          <!-- <input type="hidden" name="id" id="id" value="0"> -->
+
+          <div class="mb-3">
+            <label for="product" class="form-label"
+              >Select Product &nbsp;</label
+            >
+            <select name="selected_product" id="sp">
+              <option value="">--Select Product--</option>
+              <hr />
+              {% for name in product_names %}
+              <option value="{{ name }}">{{ name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Enter product name"
+              name="name"
+              value=""
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="productPrice" class="form-label"
+              >Product Price per Unit</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="price"
+              placeholder="Enter product price"
+              name="price"
+              value=""
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="productStock" class="form-label"
+              >Stock (No. of Units)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="stock"
+              placeholder="Enter no. of units"
+              name="stock"
+              value=""
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="productCategory" class="form-label"
+              >Category &nbsp;</label
+            >
+            <select name="category" id="category">
+              <option value="">--Select Category--</option>
+              <hr />
+              {% for category in categories %}
+              <option value="{{ category }}">{{ category }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <input
+            class="btn btn-primary"
+            type="submit"
+            value="Edit Product"
+            style="display: inline-block"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchResultsModal" tabindex="-1" aria-labelledby="searchResultsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchResultsModalLabel">Search Results</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="searchResultsModalBody">
+        <!-- Search results will be displayed here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("searchForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent default form submission
+    const productName = document.getElementById("product_name").value;
+
+    // Make AJAX request to fetch search results
+    fetch("/search_products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ product_name: productName }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Display search results in a modal
+        displaySearchResults(data);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  });
+
+  function displaySearchResults(data) {
+    const modalBody = document.getElementById("searchResultsModalBody");
+    modalBody.innerHTML = ""; // Clear previous content
+  
+    if (data.length === 0) {
+      modalBody.innerHTML = "<p>No products found.</p>";
+    } else {
+      const productList = document.createElement("ul");
+      productList.className = "list-group";
+  
+      data.forEach(product => {
+        const productItem = document.createElement("li");
+        productItem.className = "list-group-item";
+        productItem.innerHTML = `
+          <strong>Name:</strong> ${product.product_name}<br>
+          <strong>Price per Unit:</strong> ${product.price_per_unit}<br>
+          <strong>Stock:</strong> ${product.stock}<br>
+          <strong>Category:</strong> ${product.category}<br>
+          <strong>Unit:</strong> ${product.unit}
+        `;
+        productList.appendChild(productItem);
+      });
+  
+      modalBody.appendChild(productList);
+    }
+  
+    // Show the modal
+    const searchResultsModal = new bootstrap.Modal(document.getElementById("searchResultsModal"));
+    searchResultsModal.show();
+  }
+  
+</script>
+
+
 <script>
   // JavaScript to handle search and modal display
   document
@@ -433,32 +648,6 @@
       } else {
         console.log("Product not found!");
       }
-
-      /*
-      // Send AJAX request to Flask route
-      fetch("/get_product_details", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `search_input=${searchInput}`,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Update modal content with fetched product details
-          document.querySelector(".modal-body").innerHTML = `
-          <h5>Name: ${data.name}</h5>
-          <p>Description: ${data.description}</p>
-          <p>Price: ${data.price}</p>
-          <p>Stock: ${data.stock}</p>
-        `;
-
-          // Display the product details modal
-          $("#productDetailsModal").modal("show");
-        })
-        .catch((error) => console.error("Error:", error));
-
-        */
     });
 </script>
 
